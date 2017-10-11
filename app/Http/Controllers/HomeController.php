@@ -2,10 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App;
-use Auth;
 class HomeController extends Controller
 {
     /**
@@ -26,12 +22,6 @@ class HomeController extends Controller
     public function index()
     {
         return view('pages/welcome');
-    }
-
-    public function notes() {
-        $note = App\User::find(Auth::user()->id)->notes;
-
-        return view('pages/notes')->with('notes', $note);
     }
 
 }
