@@ -1,0 +1,88 @@
+body {
+    background-color: #ffffff;
+    font-family: Raleway,sans-serif;
+}
+.notes-list {
+    margin-top: 20px;
+}
+.site-title-second {
+    color: #007bff;
+}
+.container {
+    margin-top: 50px;
+}
+.show-more {
+    width: 100%;
+}
+.navbar {
+    border-bottom: 1px solid #d3e0e9;
+}
+.profile-nav,
+.logout-nav {
+    border-left: 1px solid #dadada;
+    margin-left: 15px;
+    padding-left: 15px;
+}
+.card {
+    box-shadow: -5px 5px 10px #888888;
+}
+.card-actions {
+    height: 50px;
+    border-top: 1px solid rgba(0,0,0,.125);
+    text-align: center;
+    padding-top: 5px;
+}
+
+.ribbon {
+    position: absolute;
+    right: -5px; top: -5px;
+    z-index: 1;
+    overflow: hidden;
+    width: 75px; height: 75px;
+    text-align: right;
+}
+.ribbon span {
+    font-size: 10px;
+    font-weight: bold;
+    color: #FFF;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 20px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    width: 100px;
+    display: block;
+    background: #79A70A;
+    background: linear-gradient(#2989d8 0%, #1e5799 100%);
+    box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+    position: absolute;
+    top: 19px; right: -21px;
+}
+.ribbon span::before {
+    content: "";
+    position: absolute; left: 0px; top: 100%;
+    z-index: -1;
+    border-left: 3px solid #1e5799;
+    border-right: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    border-top: 3px solid #1e5799;
+}
+.ribbon span::after {
+    content: "";
+    position: absolute; right: 0px; top: 100%;
+    z-index: -1;
+    border-left: 3px solid transparent;
+    border-right: 3px solid #1e5799;
+    border-bottom: 3px solid transparent;
+    border-top: 3px solid #1e5799;
+}
+
+
+.nav-item a {
+    text-decoration: none;
+    color: #818181;
+}
+#main {
+    transition: margin-left .5s;
+    padding: 20px;
+}
