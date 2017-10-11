@@ -38,6 +38,9 @@
 #sidebarTabs {
     margin-bottom: 20px;
 }
+.ms-container {
+    width: 340px !important;
+}
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}

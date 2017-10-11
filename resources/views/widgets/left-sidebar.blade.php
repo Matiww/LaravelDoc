@@ -22,10 +22,32 @@
                <label for="exampleFormControlTextarea1">Opis</label>
                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
              </div>
+             {{--<div class="form-group responsible-select">--}}
+                {{--<label for="optgroup">Widoczne dla--}}
+                    {{--<i id="select-all" data-toggle="tooltip" data-placement="top" title="Zaznacz wszystkich" class="fa fa-user-plus"></i>--}}
+                    {{--<i id="deselect-all" data-toggle="tooltip" data-placement="top" title="Odznacz wszystkich" class="fa fa-user-times"></i>--}}
+                {{--</label>--}}
+                {{--<select id='optgroup' multiple='multiple'>--}}
+                  {{--<optgroup label='Znajomi'>--}}
+                    {{--<option value='1'>Yoda</option>--}}
+                    {{--<option value='2'>Obiwan</option>--}}
+                  {{--</optgroup>--}}
+                  {{--<optgroup label='Grupa'>--}}
+                    {{--<option value='3'>Palpatine</option>--}}
+                    {{--<option value='4' disabled>Darth Vader</option>--}}
+                  {{--</optgroup>--}}
+                {{--</select>--}}
+             {{--</div>--}}
             <div class="form-check">
               <label class="form-check-label">
                 <input type="checkbox" class="form-check-input">
                 Ważna notatka
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="checkbox" class="form-check-input private-note">
+                Prywatna notatka
               </label>
             </div>
             <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Zapisz</button>

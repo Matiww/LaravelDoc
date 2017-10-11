@@ -1,6 +1,10 @@
 @extends('main')
 @section('stylesheets')
     <link rel="stylesheet" href="{{ URL::asset('css/left-sidebar.css') }}">
+    <link rel="stylesheet" media="screen" href="{{ URL::asset('plugins/lou-multi-select/css/multi-select.css') }}">
+@endsection
+@section('javascripts')
+    <script src="{{ asset('plugins/lou-multi-select/js/jquery.multi-select.js') }}"></script>
 @endsection
 @section('left-sidebar')
     @include('widgets/left-sidebar')
