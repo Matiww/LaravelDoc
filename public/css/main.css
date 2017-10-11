@@ -2,6 +2,9 @@ body {
     background-color: #ffffff;
     font-family: Raleway,sans-serif;
 }
+.add-note-container,
+.edit-note-container,
+.show-note-container,
 .notes-list {
     margin-top: 20px;
 }
@@ -85,4 +88,55 @@ body {
 #main {
     transition: margin-left .5s;
     padding: 20px;
+}
+.card-text {
+    min-height: 72px;
+}
+#loader {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 )
+    url('../images/loader.gif')
+    50% 50%
+    no-repeat;
+}
+.show-note {
+    background: #fff;
+    padding: 30px;
+    position: relative;
+}
+
+.show-note,
+.show-note::before,
+.show-note::after {
+    box-shadow: 1px 1px 1px rgba(0,0,0,0.25);
+    border: 1px solid #bbb;
+}
+
+.show-note::before,
+.show-note::after {
+    content: "";
+    position: absolute;
+    height: 95%;
+    width: 99%;
+    background-color: #eee;
+}
+
+.show-note::before {
+    right: 20px;
+    top: 0;
+    transform: rotate(-1deg);
+    z-index: -1;
+}
+
+.show-note::after {
+    top: 25px;
+    right: -10px;
+    transform: rotate(1deg);
+    z-index: -2;
 }

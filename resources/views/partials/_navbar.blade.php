@@ -12,6 +12,9 @@
       <li class="nav-item {{ \Request::is('notes') ? 'active' : '' }}">
           <a class="nav-link" href="{{ url('notes') }}">Notatki</a>
       </li>
+      <li class="nav-item {{ \Request::is('notes/create') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ url('notes/create') }}">Dodaj notatkę</a>
+            </li>
     </ul>
     <div class="form-inline my-2 my-lg-0">
         <form>

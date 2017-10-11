@@ -13,7 +13,7 @@
 
 Route::get('/', 'HomeController@index');
 
-Route::get('/notes', 'HomeController@notes');
+Route::resource('/notes', 'NoteController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
