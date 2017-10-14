@@ -11,13 +11,22 @@
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
           <form method="POST" action="{{ route('notes.store') }}">
+                      @if ($errors->any())
+                          <div class="alert alert-danger">
+                              <ul>
+                                  @foreach ($errors->all() as $error)
+                                      <li>{{ $error }}</li>
+                                  @endforeach
+                              </ul>
+                          </div>
+                      @endif
             <div class="form-group">
               <label for="title">Tytuł</label>
-              <input type="text" name="title" class="form-control" id="title" placeholder="">
+              <input type="text" name="title" class="form-control" id="title" placeholder="" required>
             </div>
            <div class="form-group">
-               <label for="description">Opis</label>
-               <textarea class="form-control" name="description" id="description" rows="5"></textarea>
+               <label for="content">Opis</label>
+               <textarea class="form-control" name="content" id="content" rows="5"></textarea>
              </div>
              {{--<div class="form-group responsible-select">--}}
                 {{--<label for="optgroup">Widoczne dla--}}
@@ -35,12 +44,12 @@
                   {{--</optgroup>--}}
                 {{--</select>--}}
              {{--</div>--}}
-            {{--<div class="form-check">--}}
-              {{--<label class="form-check-label">--}}
-                {{--<input type="checkbox" name="important_note" class="form-check-input">--}}
-                {{--Ważna notatka--}}
-              {{--</label>--}}
-            {{--</div>--}}
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="checkbox" name="important_note" class="form-check-input">
+                Ważna notatka
+              </label>
+            </div>
             {{--<div class="form-check">--}}
               {{--<label class="form-check-label">--}}
                 {{--<input type="checkbox" name="private_note" class="form-check-input private-note">--}}
@@ -52,8 +61,7 @@
           </form>
       </div>
       <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-             <p>Wkrótce</p>
-             {{--<form>--}}
+             <form method="GET" action="{{ route('notes.store') }}">
                {{--<div class="form-group">--}}
                  {{--<label class="form-control-label" for="formGroupExampleInput">Example label</label>--}}
                  {{--<input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">--}}
@@ -62,18 +70,16 @@
                  {{--<label class="form-control-label" for="formGroupExampleInput2">Another label</label>--}}
                  {{--<input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">--}}
                {{--</div>--}}
-             {{--</form>--}}
 
-             {{--<div class="form-group">--}}
-                {{--<label for="exampleFormControlSelect1">Example select</label>--}}
-                {{--<select class="form-control" id="exampleFormControlSelect1">--}}
-                  {{--<option>1</option>--}}
-                  {{--<option>2</option>--}}
-                  {{--<option>3</option>--}}
-                  {{--<option>4</option>--}}
-                  {{--<option>5</option>--}}
-                {{--</select>--}}
-              {{--</div>--}}
+                 <div class="form-group">
+                    <label for="exampleFormControlSelect1">Wyników na stronie</label>
+                    <select class="form-control" name="limit" id="exampleFormControlSelect1">
+                      <option value="8">8</option>
+                      <option value="16">16</option>
+                      <option value="32">32</option>
+                      <option value="64">64</option>
+                    </select>
+                  </div>
 
              {{--<div class="form-check">--}}
                {{--<label class="form-check-label">--}}
@@ -106,7 +112,8 @@
                  {{--Option two is disabled--}}
                {{--</label>--}}
              {{--</div>--}}
-             {{--<button type="submit" class="btn btn-primary"><i class="fa fa-filter"></i> Filtruj</button>--}}
+                <button type="submit" class="btn btn-primary"><i class="fa fa-filter"></i> Filtruj</button>
+             </form>
       </div>
     </div>
 

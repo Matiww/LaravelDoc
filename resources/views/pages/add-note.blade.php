@@ -15,8 +15,14 @@
                 <input type="text" class="form-control" name="title" id="title" placeholder="Wprowadź tytuł">
               </div>
               <div class="form-group">
-                <label for="description">Opis</label>
-                <textarea class="form-control" name="description" id="description" rows="5"></textarea>
+                <label for="content">Opis</label>
+                <textarea class="form-control" name="content" id="content" rows="5"></textarea>
+              </div>
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" name="important_note" class="form-check-input">
+                  Ważna notatka
+                </label>
               </div>
               <input type="hidden" name="_token" value="{{ Session::token() }}">
               <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Zapisz</button>

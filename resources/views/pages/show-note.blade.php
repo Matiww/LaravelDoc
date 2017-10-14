@@ -14,7 +14,7 @@
                     {{ $note->title }}
                 </h1>
                 <blockquote class="blockquote">
-                  <p class="mb-0">{{ $note->content }}</p>
+                  <p class="mb-0">{!! nl2br(e($note->content)) !!}</p>
                   <footer class="blockquote-footer"><cite title="Source Title">{{ $note->name }}</cite></footer>
                 </blockquote>
                 <p>

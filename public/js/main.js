@@ -14,6 +14,7 @@ $(document).ready(function() {
 
     $('.delete-note').on("click", function() {
         var element = $(this);
+        var notes_count = $('#notes_count');
         var notes_container = $('.notes-container');
         if(confirm('Czy na pewno chcesz usunąć '+element.closest('.card').find('.card-title').text()+'?')) {
             var id = $(this).attr('data-id');
@@ -21,6 +22,7 @@ $(document).ready(function() {
                 url: '/notes/'+id,
                 type: 'DELETE',
                 success: function(result) {
+                    notes_count.val(notes_count.val() - 1);
                     element.closest('.notes-list').fadeOut(function() {
                         $('.tooltip').remove();
                         if($(this).remove()) {
@@ -32,6 +34,9 @@ $(document).ready(function() {
                                     '</div>' +
                                     '<div class="col-md-4"></div>'
                                 );
+                            }
+                            if(notes_count.val() <= 8) {
+                                $('.pagination-container').remove();
                             }
                         }
                     });
