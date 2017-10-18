@@ -187,6 +187,7 @@ class NoteController extends Controller {
         if (isset($request->private_note) && $request->private_note == "on") {
             $note->private = self::PRIVATE_NOTE;
         }
+        $note->date = $request->date ? $request->date : null;
         $note->updated_at = date('Y-m-d H:i:s');
 
         $note->save();
@@ -257,7 +258,8 @@ class NoteController extends Controller {
                 'notes.content',
                 'notes.date',
                 'notes.created_at',
-                'notes.updated_at'
+                'notes.updated_at',
+                'notes.important'
 
             )
             ->join('users', 'notes.user_id', '=', 'users.id')

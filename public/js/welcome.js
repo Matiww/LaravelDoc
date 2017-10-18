@@ -18,15 +18,17 @@ $(document).ready(function() {
                         $('#script-warning').show();
                     },
                     success: function(response){
-                        console.log(response);
+                    console.log(response.important);
                         var events = [];
                         $(response).each(function( index, element ) {
+                        var border_color = element.important == 1 ? '#ff0000' : '#007bff';
                           events.push({
                               title: element.title,
                               start: element.date,
                               url: 'notes/'+element.id,
                               color: '#007bff',
                               textColor: 'white',
+                              borderColor: border_color,
                               allDay: true
                           })
                         });
