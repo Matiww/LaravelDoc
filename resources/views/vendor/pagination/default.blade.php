@@ -3,11 +3,12 @@
         <ul class="pagination justify-content-center">
             {{-- Previous Page Link --}}
             @if ($paginator->onFirstPage())
-                 <li class="page-item disabled">
-                   <a class="page-link" href="#" tabindex="-1">&laquo;</a>
-                 </li>
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">&laquo;</a>
+                </li>
             @else
-                <li class="page-item"><a class="page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+                <li class="page-item"><a class="page-link" href="{{ $paginator->previousPageUrl() }}"
+                                         rel="prev">&laquo;</a></li>
             @endif
 
             {{-- Pagination Elements --}}
@@ -31,10 +32,11 @@
 
             {{-- Next Page Link --}}
             @if ($paginator->hasMorePages())
-                <li class="page-item"><a class="page-link" href="{{ $paginator->nextPageUrl() }}" rel="next">&raquo;</a></li>
+                <li class="page-item"><a class="page-link" href="{{ $paginator->nextPageUrl() }}" rel="next">&raquo;</a>
+                </li>
             @else
                 <li class="page-item disabled">
-                  <a class="page-link" href="#">&raquo;</a>
+                    <a class="page-link" href="#">&raquo;</a>
                 </li>
             @endif
         </ul>

@@ -7,18 +7,17 @@ use App\Note;
 use Auth;
 use Illuminate\Support\Facades\DB;
 
-class NoteController extends Controller
-{
+class NoteController extends Controller {
     const NOTES_PER_PAGE = 25;
     const PRIVATE_NOTE = 1;
     const IMPORTANT_NOTE = 1;
     const NOTES_ACTIVE = 1;
     const NOTE_CONTENT_LENGTH = 90; //90
+
     /**
      * Create a new controller instance.
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth');
     }
 
@@ -27,8 +26,7 @@ class NoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
         $limit = isset($request->limit) ? $request->limit : self::NOTES_PER_PAGE;
 
         $notes = DB::table('users')
@@ -59,7 +57,7 @@ class NoteController extends Controller
             ->get();
 
         return view('pages/notes', [
-            'notes' => $notes,
+            'notes'       => $notes,
             'notes_count' => $notes_count[0]
         ]);
     }
@@ -69,21 +67,20 @@ class NoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         return view('pages/add-note');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $request->validate([
-            'title' => 'required|max:255',
+            'title'   => 'required|max:255',
             'content' => 'nullable'
         ]);
         $note = new Note;
@@ -91,10 +88,10 @@ class NoteController extends Controller
         $note->title = $request->input('title');
         $note->content = $request->input('content');
         $note->user_id = Auth::id();
-        if(isset($request->important_note) && ($request->important_note == "on" || $request->important_note == 1)) {
+        if (isset($request->important_note) && ($request->important_note == "on" || $request->important_note == 1)) {
             $note->important = self::IMPORTANT_NOTE;
         }
-        if(isset($request->private_note) && ($request->private_note == "on" || $request->private_note == 1)) {
+        if (isset($request->private_note) && ($request->private_note == "on" || $request->private_note == 1)) {
             $note->private = self::PRIVATE_NOTE;
         }
         $note->date = $request->date ? $request->date : null;
@@ -102,26 +99,27 @@ class NoteController extends Controller
         $note->updated_at = date('Y-m-d H:i:s');
 
         $note->save();
+
         return $request->ajax == true ? array(
-            'success' => true,
-            'id' => $note->id,
-            'title' => $request->input('title'),
-            'content' => $request->input('content') ? $request->input('content') : '',
-            'important' => $request->important_note,
-            'date' => $request->date ? date('d-m-Y', strtotime($request->date)) : 'Brak',
+            'success'    => true,
+            'id'         => $note->id,
+            'title'      => $request->input('title'),
+            'content'    => $request->input('content') ? $request->input('content') : '',
+            'important'  => $request->important_note,
+            'date'       => $request->date ? date('d-m-Y', strtotime($request->date)) : 'Brak',
             'created_at' => date('d-m-Y H:i:s', strtotime(date('Y-m-d H:i:s'))),
-            'name' => Auth::user()->name
+            'name'       => Auth::user()->name
         ) : redirect()->route('notes.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         $note = DB::table('notes')
             ->select(
                 'users.name',
@@ -137,7 +135,7 @@ class NoteController extends Controller
             ->where('notes.user_id', '=', Auth::id())
             ->where('notes.id', '=', $id)
             ->get();
-        if(!empty($note[0])) {
+        if (!empty($note[0])) {
             return view('pages/show-note')->with('note', $note[0]);
         } else {
             return view('errors/note');
@@ -147,15 +145,15 @@ class NoteController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         $note = Note::where('id', $id)
             ->where('user_id', Auth::id())
-        ->first();
-        if(!empty($note)) {
+            ->first();
+        if (!empty($note)) {
             return view('pages/edit-note')->with('note', $note);
         } else {
             return view('errors/note');
@@ -165,14 +163,14 @@ class NoteController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         $request->validate([
-            'title' => 'required|max:255',
+            'title'   => 'required|max:255',
             'content' => 'nullable'
         ]);
         $note = Note::find($id);
@@ -181,12 +179,12 @@ class NoteController extends Controller
         $note->content = $request->input('content');
 
         $note->important = 0;
-        if(isset($request->important_note) && $request->important_note == "on") {
+        if (isset($request->important_note) && $request->important_note == "on") {
             $note->important = self::IMPORTANT_NOTE;
         }
 
         $note->private = 0;
-        if(isset($request->private_note) && $request->private_note == "on") {
+        if (isset($request->private_note) && $request->private_note == "on") {
             $note->private = self::PRIVATE_NOTE;
         }
         $note->updated_at = date('Y-m-d H:i:s');
@@ -199,44 +197,52 @@ class NoteController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         $note = Note::find($id);
-        if($note->user_id == Auth::id()) {
+        if ($note->user_id == Auth::id()) {
             $note->delete();
+
             return array('success' => true);
         }
+
         return view('errors/note');
     }
 
     /**
      * Enable note
-     * @param  int  $id
+     *
+     * @param  int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function enable($id) {
         $note = Note::find($id);
-        if($note->user_id == Auth::id()) {
+        if ($note->user_id == Auth::id()) {
             $note->active = 1;
             $note->save();
         }
+
         return redirect()->route('notes.index');
     }
 
     /**
      * Disable note
-     * @param  int  $id
+     *
+     * @param  int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function disable($id) {
         $note = Note::find($id);
-        if($note->user_id == Auth::id()) {
+        if ($note->user_id == Auth::id()) {
             $note->active = 0;
             $note->save();
         }
+
         return redirect()->route('notes.index');
     }
 

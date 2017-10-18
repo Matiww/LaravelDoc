@@ -14,8 +14,8 @@
                     {{ $note->title }}
                 </h1>
                 <blockquote class="blockquote">
-                  <p class="mb-0">{!! nl2br(e($note->content)) !!}</p>
-                  <footer class="blockquote-footer"><cite title="Source Title">{{ $note->name }}</cite></footer>
+                    <p class="mb-0">{!! nl2br(e($note->content)) !!}</p>
+                    <footer class="blockquote-footer"><cite title="Source Title">{{ $note->name }}</cite></footer>
                 </blockquote>
                 <p>
                     Dodano: {{ date('d-m-Y H:i:s', strtotime($note->created_at)) }}
