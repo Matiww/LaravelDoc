@@ -50,12 +50,12 @@
                             </div>
                             <div class="card-actions no-wrap">
                                 @if($note->active == 1)
-                                    <a href="/notes/{{ $note->id }}/disable" class="btn btn-light disable-note"
+                                    <a href="{{ url('/notes/'.$note->id.'/disable') }}" class="btn btn-light disable-note"
                                        data-toggle="tooltip" data-placement="top" title="Zablokuj"><i
                                                 class="fa fa-ban"></i></a>
-                                    <a href="/notes/{{ $note->id }}" class="btn btn-light" data-toggle="tooltip"
+                                    <a href="{{ url('/notes/'.$note->id) }}" class="btn btn-light" data-toggle="tooltip"
                                        data-placement="top" title="Podgląd"><i class="fa fa-eye"></i></a>
-                                    <a href="/notes/{{ $note->id }}/edit" class="btn btn-light" data-toggle="tooltip"
+                                    <a href="{{ url('/notes/'.$note->id.'/edit') }}" class="btn btn-light" data-toggle="tooltip"
                                        data-placement="top" title="Edycja"><i class="fa fa-edit"></i></a>
                                     <button data-id="{{ $note->id }}" type="button" class="btn btn-light delete-note"
                                             data-toggle="tooltip" data-placement="top" title="Usuń"><i
