@@ -17,16 +17,16 @@
             </li>
     </ul>
     <div class="form-inline my-2 my-lg-0">
-        <form>
-          <input class="form-control mr-sm-2" type="text" placeholder="Fraza" aria-label="Search">
-          <button class="btn btn-outline-primary my-2 my-sm-0" type="submit"><i class="fa fa-search"></i> Szukaj</button>
-        </form>
+        {{--<form>--}}
+          {{--<input class="form-control mr-sm-2" type="text" placeholder="Fraza" aria-label="Search">--}}
+          {{--<button class="btn btn-outline-primary my-2 my-sm-0" type="submit"><i class="fa fa-search"></i> Szukaj</button>--}}
+        {{--</form>--}}
           <ul class="navbar-nav mr-auto">
                 <li class="nav-item profile-nav">
-                   <a class="nav-link" href="#">{{ Auth::user()->name }}</a>
+                   <a class="nav-link" href="#"><i class="fa fa-user"></i> {{ Auth::user()->name }}</a>
                 </li>
             <li class="nav-item logout-nav">
-                  <a class="nav-link logout" href="{{ route('logout') }}">Wyloguj</a>
+                  <a class="nav-link logout" href="{{ route('logout') }}"><i class="fa fa-sign-out"></i> Wyloguj</a>
                   <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                       {{ csrf_field() }}
                   </form>

@@ -1,14 +1,17 @@
 @extends('main')
+@section('stylesheets')
+<link rel="stylesheet" href="{{ asset('plugins/fullcalendar-3.6.1/fullcalendar.css') }}" crossorigin="anonymous">
+@endsection
+@section('javascripts')
+<script src="{{ asset('plugins/fullcalendar-3.6.1/lib/moment.min.js') }}" crossorigin="anonymous"></script>
+<script src="{{ asset('plugins/fullcalendar-3.6.1/fullcalendar.js') }}" crossorigin="anonymous"></script>
+<script src="{{ asset('plugins/fullcalendar-3.6.1/locale/pl.js') }}" crossorigin="anonymous"></script>
+<script src="{{ asset('js/welcome.js') }}"></script>
+@endsection
 @section('content')
-    <div class="jumbotron">
-      <h1 class="display-3">Strona główna</h1>
-      <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      <hr class="my-4">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Proin porta porta tellus a finibus. Nullam ultricies purus lectus, ac imperdiet odio pulvinar sit amet. Vivamus vestibulum cursus faucibus. Donec non gravida neque.
-      Etiam felis turpis, cursus ut eleifend eu, convallis ac odio. Curabitur interdum sem ut justo laoreet ullamcorper. Sed bibendum eu ex id aliquam.</p>
-      <p class="lead">
-        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-      </p>
+<div class="row">
+    <div class="col-md-12 calendar-container">
+        <div id='calendar'></div>
     </div>
+</div>
 @endsection

@@ -1,6 +1,6 @@
 body {
     background-color: #ffffff;
-    font-family: Raleway,sans-serif;
+    font-family: Lato;
 }
 .add-note-container,
 .edit-note-container,
@@ -13,6 +13,9 @@ body {
 }
 .container {
     margin-top: 50px;
+}
+.notes-container {
+    margin: 0 auto;
 }
 .show-more {
     width: 100%;
@@ -27,7 +30,7 @@ body {
     padding-left: 15px;
 }
 .card {
-    box-shadow: -5px 5px 10px #888888;
+    box-shadow: 0 0 1px #888888;
 }
 .card-actions {
     height: 50px;
@@ -89,14 +92,14 @@ body {
     transition: margin-left .5s;
     padding: 20px;
 }
-.card-text {
-    min-height: 72px;
-}
 .card-title {
     padding-right: 20px;
 }
+.card-footer {
+    text-align: center;
+}
 #loader {
-    display:    none;
+    /*display:    none;*/
     position:   fixed;
     z-index:    1000;
     top:        0;
@@ -136,7 +139,9 @@ body {
     transform: rotate(-1deg);
     z-index: -1;
 }
-
+.additional-info {
+    display: block;
+}
 .show-note::after {
     top: 25px;
     right: -10px;
@@ -203,3 +208,68 @@ body {
     border-bottom: 3px solid transparent;
     border-top: 3px solid #79A70A;
 }
+
+.not-active {
+    color: #dcdcdc;
+}
+.no-shadow {
+    box-shadow: 0 0 0 #ffffff;
+}
+.inline-block {
+    display: inline-block;
+}
+.no-wrap {
+    white-space: nowrap;
+}
+/*@media screen and (min-width: 1200px) {*/
+    /*.bricklayer-column-sizer {*/
+        /*width: 12%;*/
+    /*}*/
+/*}*/
+.grid {
+    margin: 0 auto;
+}
+.grid-sizer,
+.grid-item {
+    width: 240px;
+}
+.grid-item {
+    /*margin-bottom: 10px;*/
+}
+.gutter-sizer {
+    width: 10px;
+}
+.toast-progress {
+    background-color: #ffffff;
+}
+.calendar-container {
+    margin-top: 20px;
+}
+#calendar {
+    color: rgba(0,0,0,.5) !important;
+}
+.fc-button {
+    color: rgba(0,0,0,.5) !important;
+    background-image: none;
+    border: 1px solid white;
+    background-color: #ffffff;
+}
+.fc-toolbar .fc-state-active, .fc-toolbar .ui-state-active {
+    border: 1px solid #00b0ff;
+}
+.fc-unthemed th, .fc-unthemed td, .fc-unthemed thead, .fc-unthemed tbody, .fc-unthemed .fc-divider, .fc-unthemed .fc-row, .fc-unthemed .fc-content, .fc-unthemed .fc-popover, .fc-unthemed .fc-list-view, .fc-unthemed .fc-list-heading td {
+    border-color: #d3e0e9;
+}
+.fc-unthemed td.fc-today {
+    background: #f8f9fa;
+}
+@media screen and (max-width: 991px) {
+    #left-sidebar {
+        display: none;
+    }
+    .container {
+        float: none;
+        width: 100%;
+    }
+}
+

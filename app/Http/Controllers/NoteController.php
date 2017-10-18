@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class NoteController extends Controller
 {
-    const NOTES_PER_PAGE = 8;
+    const NOTES_PER_PAGE = 25;
     const PRIVATE_NOTE = 1;
     const IMPORTANT_NOTE = 1;
     const NOTES_ACTIVE = 1;
@@ -48,7 +48,8 @@ class NoteController extends Controller
             )
             ->join('notes', 'users.id', '=', 'notes.user_id')
             ->where('users.id', '=', Auth::id())
-            ->where('notes.active', '=', self::NOTES_ACTIVE)
+//            ->where('notes.active', '=', self::NOTES_ACTIVE)
+            ->orderBy('notes.active', 'desc')
             ->orderBy('notes.created_at', 'desc')
             ->paginate($limit);
 
@@ -90,19 +91,27 @@ class NoteController extends Controller
         $note->title = $request->input('title');
         $note->content = $request->input('content');
         $note->user_id = Auth::id();
-        if(isset($request->important_note) && $request->important_note == "on") {
+        if(isset($request->important_note) && ($request->important_note == "on" || $request->important_note == 1)) {
             $note->important = self::IMPORTANT_NOTE;
         }
-        if(isset($request->private_note) && $request->private_note == "on") {
+        if(isset($request->private_note) && ($request->private_note == "on" || $request->private_note == 1)) {
             $note->private = self::PRIVATE_NOTE;
         }
-        $note->date = null;
+        $note->date = $request->date ? $request->date : null;
         $note->created_at = date('Y-m-d H:i:s');
         $note->updated_at = date('Y-m-d H:i:s');
 
         $note->save();
-
-        return redirect()->route('notes.index');
+        return $request->ajax == true ? array(
+            'success' => true,
+            'id' => $note->id,
+            'title' => $request->input('title'),
+            'content' => $request->input('content') ? $request->input('content') : '',
+            'important' => $request->important_note,
+            'date' => $request->date ? date('d-m-Y', strtotime($request->date)) : 'Brak',
+            'created_at' => date('d-m-Y H:i:s', strtotime(date('Y-m-d H:i:s'))),
+            'name' => Auth::user()->name
+        ) : redirect()->route('notes.index');
     }
 
     /**
@@ -196,7 +205,63 @@ class NoteController extends Controller
     public function destroy($id)
     {
         $note = Note::find($id);
-        $note->delete();
-        return array('success' => true);
+        if($note->user_id == Auth::id()) {
+            $note->delete();
+            return array('success' => true);
+        }
+        return view('errors/note');
+    }
+
+    /**
+     * Enable note
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function enable($id) {
+        $note = Note::find($id);
+        if($note->user_id == Auth::id()) {
+            $note->active = 1;
+            $note->save();
+        }
+        return redirect()->route('notes.index');
+    }
+
+    /**
+     * Disable note
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function disable($id) {
+        $note = Note::find($id);
+        if($note->user_id == Auth::id()) {
+            $note->active = 0;
+            $note->save();
+        }
+        return redirect()->route('notes.index');
+    }
+
+
+    public function getCalendarEvents() {
+        $note = DB::table('notes')
+            ->select(
+                'users.name',
+                'users.email',
+                'notes.id',
+                'notes.title',
+                'notes.content',
+                'notes.date',
+                'notes.created_at',
+                'notes.updated_at'
+
+            )
+            ->join('users', 'notes.user_id', '=', 'users.id')
+            ->where('notes.user_id', '=', Auth::id())
+            ->where('notes.active', '=', self::NOTES_ACTIVE)
+            ->where('notes.date', '!=', null)
+            ->get();
+
+        $response = response()->json($note);
+
+        return $response;
     }
 }

@@ -18,6 +18,10 @@
                 <label for="content">Opis</label>
                 <textarea class="form-control" name="content" id="content" rows="5"></textarea>
               </div>
+              <div class="form-group">
+                <label for="date">Data</label>
+                <input type="date" name="date" class="form-control" id="date" placeholder="">
+              </div>
               <div class="form-check">
                 <label class="form-check-label">
                   <input type="checkbox" name="important_note" class="form-check-input">

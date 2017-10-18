@@ -7,10 +7,12 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>LaravelDoc</title>
+        <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
         {{--<link href="{{ asset('css/app.css') }}" rel="stylesheet">--}}
         @yield('stylesheets')
+        <link rel="stylesheet" href="{{ URL::asset('plugins/toastr/toastr.min.css') }}">
         <link rel="stylesheet" href="{{ URL::asset('css/main.css') }}">
     </head>
     <body>
@@ -24,6 +26,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
         @yield('javascripts')
+        <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
         <script src="{{ asset('js/main.js') }}"></script>
         {{--<script src="{{ asset('js/app.js') }}"></script>--}}
         <script>
@@ -35,6 +38,9 @@
            .ajaxStop(function () {
                 loading.hide();
             });
+            $(window).on("load", function() {
+            	loading.fadeOut("slow");
+            })
         </script>
     </body>
 </html>
