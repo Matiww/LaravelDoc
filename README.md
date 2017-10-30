@@ -1,4 +1,4 @@
-# Noteww
+# Noteww - Notes management application ( Work in progress)
 
 Installation
 
