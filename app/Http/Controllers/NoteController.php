@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreNote;
 use Illuminate\Http\Request;
 use App\Note;
 use Auth;
+use Illuminate\Session\Store;
 use Illuminate\Support\Facades\DB;
 
 class NoteController extends Controller {
     const NOTES_PER_PAGE = 25;
     const PRIVATE_NOTE = 1;
-    const IMPORTANT_NOTE = 1;
+    const IMPORTANT_NOTE = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const NOTES_ACTIVE = 1;
-    const NOTE_CONTENT_LENGTH = 90; //90
+    const NOTE_CONTENT_LENGTH = 500; //90
 
     /**
      * Create a new controller instance.
@@ -29,36 +31,42 @@ class NoteController extends Controller {
     public function index(Request $request) {
         $limit = isset($request->limit) ? $request->limit : self::NOTES_PER_PAGE;
 
-        $notes = DB::table('users')
-            ->select(
-                'users.name',
-                'users.email',
-                'notes.id',
-                'notes.id',
-                'notes.title',
-                'notes.content',
-                'notes.created_at',
-                'notes.updated_at',
-                'notes.active',
-                'notes.important',
-                'notes.date',
-                'notes.private'
-            )
+        $query = DB::table('users');
+        $query->select(
+            'users.name',
+            'users.email',
+            'notes.id',
+            'notes.id',
+            'notes.title',
+            'notes.content',
+            'notes.created_at',
+            'notes.updated_at',
+            'notes.active',
+            'notes.important',
+            'notes.date',
+            'notes.private'
+        )
             ->join('notes', 'users.id', '=', 'notes.user_id')
             ->where('users.id', '=', Auth::id())
-//            ->where('notes.active', '=', self::NOTES_ACTIVE)
             ->orderBy('notes.active', 'desc')
-            ->orderBy('notes.created_at', 'desc')
-            ->paginate($limit);
+            ->orderBy('notes.important', 'desc')
+            ->orderBy('notes.created_at', 'desc');
+        if (isset($request->search)) {
+            $query->where('notes.title', 'LIKE', '%' . $request->search . '%');
+            $query->orWhere('notes.content', 'LIKE', '%' . $request->search . '%');
+        }
 
-        $notes_count = DB::table('notes')
-            ->select(DB::raw('count(id) as notes_count'))
-            ->where('user_id', '=', Auth::id())
-            ->get();
+        if (isset($request->important)) {
+            if ($request->important == 0) {
+                $query->where('notes.important', '=', 0);
+            } else {
+                $query->whereIn('notes.important', self::IMPORTANT_NOTE);
+            }
+        }
+        $notes = $query->paginate($limit);
 
         return view('pages/notes', [
-            'notes'       => $notes,
-            'notes_count' => $notes_count[0]
+            'notes' => $notes
         ]);
     }
 
@@ -78,18 +86,17 @@ class NoteController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
-        $request->validate([
-            'title'   => 'required|max:255',
-            'content' => 'nullable'
-        ]);
+    public function store(StoreNote $request) {
         $note = new Note;
 
         $note->title = $request->input('title');
         $note->content = $request->input('content');
         $note->user_id = Auth::id();
         if (isset($request->important_note) && ($request->important_note == "on" || $request->important_note == 1)) {
-            $note->important = self::IMPORTANT_NOTE;
+            $note->important = self::IMPORTANT_NOTE[0];
+        }
+        if (isset($request->scale_level)) {
+            $note->important = $request->scale_level;
         }
         if (isset($request->private_note) && ($request->private_note == "on" || $request->private_note == 1)) {
             $note->private = self::PRIVATE_NOTE;
@@ -103,10 +110,10 @@ class NoteController extends Controller {
         return $request->ajax == true ? array(
             'success'    => true,
             'id'         => $note->id,
-            'title'      => $request->input('title'),
-            'content'    => $request->input('content') ? $request->input('content') : '',
-            'important'  => $request->important_note,
-            'date'       => $request->date ? date('d-m-Y', strtotime($request->date)) : 'Brak',
+            'title'      => $note->title,
+            'content'    => $note->content ? $note->content : '',
+            'important'  => $note->important,
+            'date'       => $note->date ? date('d-m-Y', strtotime($request->date)) : 'Brak',
             'created_at' => date('d-m-Y H:i:s', strtotime(date('Y-m-d H:i:s'))),
             'name'       => Auth::user()->name
         ) : redirect()->route('notes.index');
@@ -127,6 +134,8 @@ class NoteController extends Controller {
                 'notes.id',
                 'notes.title',
                 'notes.content',
+                'notes.important',
+                'notes.date',
                 'notes.created_at',
                 'notes.updated_at'
 
@@ -137,8 +146,6 @@ class NoteController extends Controller {
             ->get();
         if (!empty($note[0])) {
             return view('pages/show-note')->with('note', $note[0]);
-        } else {
-            return view('errors/note');
         }
     }
 
@@ -155,8 +162,6 @@ class NoteController extends Controller {
             ->first();
         if (!empty($note)) {
             return view('pages/edit-note')->with('note', $note);
-        } else {
-            return view('errors/note');
         }
     }
 
@@ -168,11 +173,7 @@ class NoteController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
-        $request->validate([
-            'title'   => 'required|max:255',
-            'content' => 'nullable'
-        ]);
+    public function update(StoreNote $request, $id) {
         $note = Note::find($id);
 
         $note->title = $request->input('title');
@@ -180,9 +181,11 @@ class NoteController extends Controller {
 
         $note->important = 0;
         if (isset($request->important_note) && $request->important_note == "on") {
-            $note->important = self::IMPORTANT_NOTE;
+            $note->important = self::IMPORTANT_NOTE[0];
         }
-
+        if (isset($request->scale_level)) {
+            $note->important = $request->scale_level;
+        }
         $note->private = 0;
         if (isset($request->private_note) && $request->private_note == "on") {
             $note->private = self::PRIVATE_NOTE;
@@ -209,8 +212,6 @@ class NoteController extends Controller {
 
             return array('success' => true);
         }
-
-        return view('errors/note');
     }
 
     /**

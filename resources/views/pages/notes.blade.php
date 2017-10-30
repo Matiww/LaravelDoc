@@ -2,17 +2,22 @@
 @section('stylesheets')
     <link rel="stylesheet" href="{{ URL::asset('css/left-sidebar.css') }}">
     <link rel="stylesheet" media="screen" href="{{ URL::asset('plugins/lou-multi-select/css/multi-select.css') }}">
+    <link rel="stylesheet" media="screen"
+          href="{{ URL::asset('plugins/ion.rangeSlider-2.2.0/css/ion.rangeSlider.css') }}">
+    <link rel="stylesheet" media="screen"
+          href="{{ URL::asset('plugins/ion.rangeSlider-2.2.0/css/ion.rangeSlider.skinNice.css') }}">
 @endsection
+
 @section('javascripts')
     <script src="{{ asset('plugins/lou-multi-select/js/jquery.multi-select.js') }}"></script>
     <script src="{{ asset('plugins/masonry.pkgd.min.js') }}"></script>
+    <script src="{{ asset('plugins/ion.rangeSlider-2.2.0/js/ion-rangeSlider/ion.rangeSlider.min.js') }}"></script>
 @endsection
 @section('left-sidebar')
     @include('widgets/left-sidebar')
 @endsection
 @section('content')
     <div class="row notes-container">
-        <input type="hidden" id="notes_count" name="notes_count" value="{{ $notes_count->notes_count }}"/>
         <div class="grid">
             <div class="grid-sizer"></div>
             <div class="gutter-sizer"></div>
@@ -21,8 +26,8 @@
                     <div class="grid-item notes-list">
                         <div class="card bg-light mb-3 {{ $note->active == 1 ? '' : 'not-active no-shadow' }}"
                              style="max-width: 20rem;">
-                            @if($note->important == \App\Http\Controllers\NoteController::IMPORTANT_NOTE)
-                                <div class="ribbon-important"><span>WAŻNA</span></div>
+                            @if(in_array($note->important, \App\Http\Controllers\NoteController::IMPORTANT_NOTE))
+                                <div class="ribbon-important"><span>WAŻNA ( {{ $note->important }} )</span></div>
                             @endif
                             {{--@if($note->private == \App\Http\Controllers\NoteController::PRIVATE_NOTE)--}}
                             {{--<div class="ribbon-private"><span>PRYWATNA</span></div>--}}
@@ -43,19 +48,21 @@
                                     </small>
                                 @else
                                     <small class="{{ $note->active == 1 ? 'text-muted' : 'not-active' }} note-timestamps">
-                                        <i class="fa fa-refresh" data-toggle="tooltip" data-placement="top"
+                                        <i class="fa fa-calendar-plus-o" data-toggle="tooltip" data-placement="top"
                                            title="Ostatnia aktualizacja"></i> {{ date('d-m-Y H:i:s', strtotime($note->updated_at)) }}
                                     </small>
                                 @endif
                             </div>
                             <div class="card-actions no-wrap">
                                 @if($note->active == 1)
-                                    <a href="{{ url('/notes/'.$note->id.'/disable') }}" class="btn btn-light disable-note"
+                                    <a href="{{ url('/notes/'.$note->id.'/disable') }}"
+                                       class="btn btn-light disable-note"
                                        data-toggle="tooltip" data-placement="top" title="Zablokuj"><i
                                                 class="fa fa-ban"></i></a>
                                     <a href="{{ url('/notes/'.$note->id) }}" class="btn btn-light" data-toggle="tooltip"
                                        data-placement="top" title="Podgląd"><i class="fa fa-eye"></i></a>
-                                    <a href="{{ url('/notes/'.$note->id.'/edit') }}" class="btn btn-light" data-toggle="tooltip"
+                                    <a href="{{ url('/notes/'.$note->id.'/edit') }}" class="btn btn-light"
+                                       data-toggle="tooltip"
                                        data-placement="top" title="Edycja"><i class="fa fa-edit"></i></a>
                                     <button data-id="{{ $note->id }}" type="button" class="btn btn-light delete-note"
                                             data-toggle="tooltip" data-placement="top" title="Usuń"><i

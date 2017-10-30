@@ -10,8 +10,9 @@
         <div class="col-md-2"></div>
         <div class="col-md-8 show-note-container">
             <div class="show-note">
+                <div class="ribbon-important"><span>WAŻNA ( {{ $note->important }} )</span></div>
                 <h1 class="display-4">
-                    {{ $note->title }}
+                    {{ $note->title }} <small>{{ isset($note->date) ? date('d-m-Y', strtotime($note->date)) : '' }}</small>
                 </h1>
                 <blockquote class="blockquote">
                     <p class="mb-0">{!! nl2br(e($note->content)) !!}</p>
@@ -24,6 +25,8 @@
                     Ostatnia aktualizacja: {{ date('d-m-Y H:i:s', strtotime($note->updated_at)) }}
                 </p>
             </div>
+            <a href="{{ url('notes') }}" type="button" class="btn btn-secondary">Wróć</a>
+            <a href="{{ url('notes') }}/{{ $note->id }}/edit" type="button" class="btn btn-primary">Edytuj</a>
         </div>
         <div class="col-md-2"></div>
     </div>
