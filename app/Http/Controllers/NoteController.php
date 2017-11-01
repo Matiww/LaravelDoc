@@ -14,7 +14,7 @@ class NoteController extends Controller {
     const PRIVATE_NOTE = 1;
     const IMPORTANT_NOTE = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const NOTES_ACTIVE = 1;
-    const NOTE_CONTENT_LENGTH = 500; //90
+    const NOTE_CONTENT_LENGTH = 90; //90
 
     /**
      * Create a new controller instance.

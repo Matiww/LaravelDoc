@@ -44,12 +44,10 @@
                         Ważna notatka
                     </label>
                 </div>
-                @if(in_array($note->important, \App\Http\Controllers\NoteController::IMPORTANT_NOTE))
-                    <div class="form-group {{ in_array($note->important, \App\Http\Controllers\NoteController::IMPORTANT_NOTE) ? '' : 'display-none' }} scale-handle">
-                        Skala ważności
-                        <input type="text" id="scale" name="scale_level" value="{{ $note->important }}"/>
-                    </div>
-                @endif
+                <div class="form-group {{ in_array($note->important, \App\Http\Controllers\NoteController::IMPORTANT_NOTE) ? '' : 'display-none' }} scale-handle">
+                    Skala ważności
+                    <input type="text" id="scale" name="scale_level" value="{{ $note->important }}"/>
+                </div>
                 <input type="hidden" name="_token" value="{{ Session::token() }}">
                 <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Zapisz</button>
                 {{ method_field('PUT') }}
