@@ -37,17 +37,17 @@
                     <label for="date">Data</label>
                     <input type="date" name="date" class="form-control" id="date" placeholder="">
                 </div>
-                <div class="form-check">
-                    <label class="form-check-label">
-                        <input type="checkbox" name="important_note"
-                               class="form-check-input important-note" {{ in_array($note->important, \App\Http\Controllers\NoteController::IMPORTANT_NOTE) ? 'checked' : '' }}>
-                        Ważna notatka
-                    </label>
-                </div>
-                <div class="form-group {{ in_array($note->important, \App\Http\Controllers\NoteController::IMPORTANT_NOTE) ? '' : 'display-none' }} scale-handle">
-                    Skala ważności
-                    <input type="text" id="scale" name="scale_level" value="{{ $note->important }}"/>
-                </div>
+                {{--<div class="form-check">--}}
+                    {{--<label class="form-check-label">--}}
+                        {{--<input type="checkbox" name="important_note"--}}
+                               {{--class="form-check-input important-note" {{ in_array($note->important, \App\Http\Controllers\NoteController::IMPORTANT_NOTE) ? 'checked' : '' }}>--}}
+                        {{--Ważna notatka--}}
+                    {{--</label>--}}
+                {{--</div>--}}
+                {{--<div class="form-group {{ in_array($note->important, \App\Http\Controllers\NoteController::IMPORTANT_NOTE) ? '' : 'display-none' }} scale-handle">--}}
+                    {{--Skala ważności--}}
+                    {{--<input type="text" id="scale" name="scale_level" value="{{ $note->important }}"/>--}}
+                {{--</div>--}}
                 <input type="hidden" name="_token" value="{{ Session::token() }}">
                 <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Zapisz</button>
                 {{ method_field('PUT') }}

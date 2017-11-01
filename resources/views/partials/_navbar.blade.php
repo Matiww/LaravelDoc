@@ -27,9 +27,9 @@
                 <li class="nav-item search-menu">
                     <a class="nav-link" href="#"><i class="fa fa-search"></i> Szukaj</a>
                 </li>
-                <li class="nav-item lang-menu">
-                    <a class="nav-link" href="#"><i class="fa fa-language"></i> Język</a>
-                </li>
+                {{--<li class="nav-item lang-menu">--}}
+                    {{--<a class="nav-link" href="#"><i class="fa fa-language"></i> Język</a>--}}
+                {{--</li>--}}
                 <li class="nav-item profile-nav">
                     <a class="nav-link" href="#"><i class="fa fa-user"></i> {{ Auth::user()->name }}</a>
                 </li>

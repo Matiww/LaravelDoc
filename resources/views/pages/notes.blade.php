@@ -85,9 +85,9 @@
         @else
             <div class="col-md-4"></div>
             <div class="col-md-4 notes-list">
-                <div class="alert alert-info" role="alert">
-                    Brak notatek
-                </div>
+                {{--<div class="alert alert-info" role="alert">--}}
+                    {{--Brak notatek--}}
+                {{--</div>--}}
             </div>
             <div class="col-md-4"></div>
         @endif

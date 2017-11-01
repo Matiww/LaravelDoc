@@ -32,16 +32,16 @@
                     <label for="date">Data</label>
                     <input type="date" name="date" class="form-control" id="date" placeholder="">
                 </div>
-                <div class="form-check">
-                    <label class="form-check-label">
-                        <input type="checkbox" name="important_note" class="form-check-input important-note">
-                        Ważna notatka
-                    </label>
-                </div>
-                <div class="form-group display-none scale-handle">
-                    Skala ważności
-                    <input type="text" id="scale" name="scale_level" disabled/>
-                </div>
+                {{--<div class="form-check">--}}
+                    {{--<label class="form-check-label">--}}
+                        {{--<input type="checkbox" name="important_note" class="form-check-input important-note">--}}
+                        {{--Ważna notatka--}}
+                    {{--</label>--}}
+                {{--</div>--}}
+                {{--<div class="form-group display-none scale-handle">--}}
+                    {{--Skala ważności--}}
+                    {{--<input type="text" id="scale" name="scale_level" disabled />--}}
+                {{--</div>--}}
                 {{--<div class="form-check">--}}
                 {{--<label class="form-check-label">--}}
                 {{--<input type="checkbox" name="private_note" class="form-check-input private-note">--}}
