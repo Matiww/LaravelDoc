@@ -11,13 +11,15 @@
 |
 */
 
-Route::get('/', 'HomeController@index');
+Route::get('/', 'HomeController@index')->middleware('auth');
 
-Route::resource('/notes', 'NoteController');
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('/notes/{id}/enable', array( "as" => "note.enable", "uses" => "NoteController@enable"));
-Route::get('/notes/{id}/disable', array( "as" => "note.disable", "uses" => "NoteController@disable"));
 Route::post('notes/events', 'NoteController@getCalendarEvents');
+
+Route::middleware(['auth', 'isNoteOwner'])->group(function () {
+    Route::resource('/notes', 'NoteController');
+    Route::get('/notes/{id}/enable', array( "as" => "note.enable", "uses" => "NoteController@enable"));
+    Route::get('/notes/{id}/disable', array( "as" => "note.disable", "uses" => "NoteController@disable"));
+});
+

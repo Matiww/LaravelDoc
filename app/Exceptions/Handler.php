@@ -49,8 +49,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if($exception instanceof NotFoundHttpException)
-        {
+        if($exception instanceof NotFoundHttpException) {
             return response()->view('errors/404', [], 404);
 //            DYNAMIC ERRORS
 //            if (view()->exists('errors.'.$e->getStatusCode())) {

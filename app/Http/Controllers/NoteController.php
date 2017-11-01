@@ -6,7 +6,6 @@ use App\Http\Requests\StoreNote;
 use Illuminate\Http\Request;
 use App\Note;
 use Auth;
-use Illuminate\Session\Store;
 use Illuminate\Support\Facades\DB;
 
 class NoteController extends Controller {
@@ -15,13 +14,6 @@ class NoteController extends Controller {
     const IMPORTANT_NOTE = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const NOTES_ACTIVE = 1;
     const NOTE_CONTENT_LENGTH = 90; //90
-
-    /**
-     * Create a new controller instance.
-     */
-    public function __construct() {
-        $this->middleware('auth');
-    }
 
     /**
      * Display a listing of the resource.
@@ -82,9 +74,9 @@ class NoteController extends Controller {
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param StoreNote $request
      *
-     * @return \Illuminate\Http\Response
+     * @return array|\Illuminate\Http\RedirectResponse
      */
     public function store(StoreNote $request) {
         $note = new Note;
@@ -124,7 +116,7 @@ class NoteController extends Controller {
      *
      * @param  int $id
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function show($id) {
         $note = DB::table('notes')
@@ -144,9 +136,8 @@ class NoteController extends Controller {
             ->where('notes.user_id', '=', Auth::id())
             ->where('notes.id', '=', $id)
             ->get();
-        if (!empty($note[0])) {
-            return view('pages/show-note')->with('note', $note[0]);
-        }
+
+        return view('pages/show-note')->with('note', $note[0]);
     }
 
     /**
@@ -154,24 +145,22 @@ class NoteController extends Controller {
      *
      * @param  int $id
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function edit($id) {
         $note = Note::where('id', $id)
             ->where('user_id', Auth::id())
             ->first();
-        if (!empty($note)) {
-            return view('pages/edit-note')->with('note', $note);
-        }
+        return view('pages/edit-note')->with('note', $note);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param StoreNote $request
      * @param  int $id
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(StoreNote $request, $id) {
         $note = Note::find($id);
@@ -203,15 +192,13 @@ class NoteController extends Controller {
      *
      * @param  int $id
      *
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function destroy($id) {
         $note = Note::find($id);
-        if ($note->user_id == Auth::id()) {
-            $note->delete();
+        $note->delete();
 
-            return array('success' => true);
-        }
+        return array('success' => true);
     }
 
     /**
@@ -223,10 +210,9 @@ class NoteController extends Controller {
      */
     public function enable($id) {
         $note = Note::find($id);
-        if ($note->user_id == Auth::id()) {
-            $note->active = 1;
-            $note->save();
-        }
+
+        $note->active = 1;
+        $note->save();
 
         return redirect()->route('notes.index');
     }
@@ -240,15 +226,17 @@ class NoteController extends Controller {
      */
     public function disable($id) {
         $note = Note::find($id);
-        if ($note->user_id == Auth::id()) {
-            $note->active = 0;
-            $note->save();
-        }
+        $note->active = 0;
+        $note->save();
 
         return redirect()->route('notes.index');
     }
 
-
+    /**
+     * Get all calendar events
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getCalendarEvents() {
         $note = DB::table('notes')
             ->select(
