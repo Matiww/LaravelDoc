@@ -40,14 +40,14 @@
                     </form>
                 </li>
             </ul>
-            <div class="lang-options display-none">
-                <ul>
-                    <li><img src="{{ url('images/pl.png') }}"> polski</li>
-                    <li><img src="{{ url('images/en.png') }}"> angielski</li>
-                    <li><img src="{{ url('images/es.png') }}"> hiszpański</li>
-                    <li><img src="{{ url('images/de.png') }}"> niemiecki</li>
-                </ul>
-            </div>
+            {{--<div class="lang-options display-none">--}}
+                {{--<ul>--}}
+                    {{--<li><img src="{{ url('images/pl.png') }}"> polski</li>--}}
+                    {{--<li><img src="{{ url('images/en.png') }}"> angielski</li>--}}
+                    {{--<li><img src="{{ url('images/es.png') }}"> hiszpański</li>--}}
+                    {{--<li><img src="{{ url('images/de.png') }}"> niemiecki</li>--}}
+                {{--</ul>--}}
+            {{--</div>--}}
         </div>
     </div>
 </nav>
