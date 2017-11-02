@@ -68,7 +68,7 @@
                                             data-toggle="tooltip" data-placement="top" title="Usuń"><i
                                                 class="fa fa-trash"></i></button>
                                 @else
-                                    <a href="/notes/{{ $note->id }}/enable" class="btn btn-light enable-note"
+                                    <a href="{{ url('/notes/'.$note->id.'/enable') }}" class="btn btn-light enable-note"
                                        data-toggle="tooltip" data-placement="top" title="Odblokuj"><i
                                                 class="fa fa-unlock-alt"></i></a>
                                 @endif
