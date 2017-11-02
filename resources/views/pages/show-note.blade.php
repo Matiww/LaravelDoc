@@ -10,7 +10,7 @@
         <div class="col-md-2"></div>
         <div class="col-md-8 show-note-container">
             <div class="show-note">
-                <div class="ribbon-important"><span>WAŻNA ( {{ $note->important }} )</span></div>
+                {{--<div class="ribbon-important"><span>WAŻNA ( {{ $note->important }} )</span></div>--}}
                 <h1 class="display-4">
                     {{ $note->title }} <small>{{ isset($note->date) ? date('d-m-Y', strtotime($note->date)) : '' }}</small>
                 </h1>
