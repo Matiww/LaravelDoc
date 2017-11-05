@@ -47,7 +47,7 @@ $(document).ready(function () {
         if (confirm('Czy na pewno chcesz usunąć ' + element.closest('.box').find('.box-title').text() + '?')) {
             var id = $(this).attr('data-id');
             $.ajax({
-                url: '/noteww/public/notes/' + id,
+                url: '/notes/' + id,
                 type: 'DELETE',
                 success: function (result) {
                     $grid.masonry('remove', element.closest('.grid-item'))

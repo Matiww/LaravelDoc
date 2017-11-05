@@ -13,7 +13,7 @@ $(document).ready(function() {
             },
             events: function (start, end, timezone, callback) {
                 $.ajax({
-                    url: '/noteww/public/notes/events',
+                    url: '/notes/events',
                     type: 'POST',
                     error: function () {
                         $('#script-warning').show();
@@ -47,7 +47,7 @@ $(document).ready(function() {
         if (confirm('Czy na pewno chcesz usunąć ' + element.closest('tr').find('td').first().text() + '?')) {
             var id = $(this).attr('data-id');
             $.ajax({
-                url: '/noteww/public/notes/' + id,
+                url: '/notes/' + id,
                 type: 'DELETE',
                 success: function (result) {
                    location.reload();
