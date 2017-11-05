@@ -11,11 +11,15 @@
 |
 */
 
-Route::get('/', 'HomeController@index')->middleware('auth');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', 'HomeController@index');
+    Route::get('/calendar', 'HomeController@calendar');
+    Route::post('notes/events', 'NoteController@getCalendarEvents');
+});
 
 Auth::routes();
 
-Route::post('notes/events', 'NoteController@getCalendarEvents');
 
 Route::middleware(['auth', 'isNoteOwner'])->group(function () {
     Route::resource('/notes', 'NoteController');

@@ -184,7 +184,7 @@ body {
     margin-right: 35px;
 }
 
-.logo {
+.nw-logo {
     background-image: url('../images/logo.png');
     height: 40px;
     width: 40px;
@@ -264,12 +264,12 @@ body {
 
 .grid {
     /*margin: 0 auto;*/
-    width: 100%;
+    width: 100% !important;
 }
 
 .grid-sizer,
 .grid-item {
-    width: 290px; /*240*/
+    width: 322px; /*240*/
 }
 
 .grid-item {
@@ -353,5 +353,102 @@ body {
     .grid-sizer,
     .grid-item {
         width: 320px;
+    }
+}
+
+.preview-box
+{
+    position: relative;
+    padding: 50px;
+    margin: 10px auto;
+    background-color: #fff;
+    -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+}
+
+.preview-box:before, .preview-box:after
+{
+    position: absolute;
+    width: 40%;
+    height: 10px;
+    content: ' ';
+    left: 12px;
+    bottom: 12px;
+    background: transparent;
+    -webkit-transform: skew(-5deg) rotate(-5deg);
+    -moz-transform: skew(-5deg) rotate(-5deg);
+    -ms-transform: skew(-5deg) rotate(-5deg);
+    -o-transform: skew(-5deg) rotate(-5deg);
+    transform: skew(-5deg) rotate(-5deg);
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    z-index: -1;
+}
+
+.preview-box:after
+{
+    left: auto;
+    right: 12px;
+    -webkit-transform: skew(5deg) rotate(5deg);
+    -moz-transform: skew(5deg) rotate(5deg);
+    -ms-transform: skew(5deg) rotate(5deg);
+    -o-transform: skew(5deg) rotate(5deg);
+    transform: skew(5deg) rotate(5deg);
+}
+
+.preview-box h1{
+    margin:0 0 10px 0;
+    padding:0 0 10px 0;
+    border-bottom:1px solid #D8D8D8;
+    font-size:20px;
+    text-transform:uppercase;
+    font-weight:normal;
+}
+
+.preview-box content p{
+    font-size:16px;
+    text-align:left;
+}
+blockquote {
+    border: 0;
+}
+.float-right {
+    float: right;
+}
+tr th,
+tbody tr {
+    text-align: center;
+}
+.breadcrumb {
+    margin: 0;
+    background-color: #ffffff;
+    border-radius: 0;
+}
+.home-actions {
+    position: absolute;
+    right: 17px;
+    top: 15px;
+}
+.notes-actions {
+    white-space: nowrap;
+}
+.margin-top-10 {
+    margin-top: 10px;
+}
+@media screen and (max-width: 1000px) {
+    .home-actions {
+        top: -33px;
+    }
+}
+@media screen and (max-width: 539px) {
+    .home-actions {
+        top: 15px;
+    }
+}
+@media screen and (max-width: 465px) {
+    .notes-actions a {
+        padding: 0 2px;
     }
 }
