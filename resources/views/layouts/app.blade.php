@@ -43,8 +43,7 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand logo-a" href="{{ url('/') }}">Note<span style="color: #007bff">ww</span><span
-                                class="logo"></span></a>
+                    <a class="navbar-brand logo-a" href="{{ url('/') }}"><b>Note</b>ww</a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">

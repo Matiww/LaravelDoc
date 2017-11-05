@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Http\Requests\StoreNote;
 use Illuminate\Http\Request;
 use App\Note;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class NoteController extends Controller {
@@ -14,30 +15,32 @@ class NoteController extends Controller {
     const IMPORTANT_NOTE = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const NOTES_ACTIVE = 1;
     const NOTE_CONTENT_LENGTH = 90; //90
-
+    const NOTES_FETCH = [
+        'users.name',
+        'users.email',
+        'notes.id',
+        'notes.id',
+        'notes.title',
+        'notes.content',
+        'notes.created_at',
+        'notes.updated_at',
+        'notes.active',
+        'notes.important',
+        'notes.date',
+        'notes.private'
+    ];
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request) {
         $limit = isset($request->limit) ? $request->limit : self::NOTES_PER_PAGE;
 
         $query = DB::table('users');
-        $query->select(
-            'users.name',
-            'users.email',
-            'notes.id',
-            'notes.id',
-            'notes.title',
-            'notes.content',
-            'notes.created_at',
-            'notes.updated_at',
-            'notes.active',
-            'notes.important',
-            'notes.date',
-            'notes.private'
-        )
+        $query->select(self::NOTES_FETCH)
             ->join('notes', 'users.id', '=', 'notes.user_id')
             ->where('users.id', '=', Auth::id())
             ->orderBy('notes.active', 'desc')
@@ -57,7 +60,7 @@ class NoteController extends Controller {
         }
         $notes = $query->paginate($limit);
 
-        return view('pages/notes', [
+        return view('pages.notes.list', [
             'notes' => $notes
         ]);
     }
@@ -68,7 +71,7 @@ class NoteController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        return view('pages/add-note');
+        return view('pages.notes.add-edit');
     }
 
     /**
@@ -93,13 +96,13 @@ class NoteController extends Controller {
         if (isset($request->private_note) && ($request->private_note == "on" || $request->private_note == 1)) {
             $note->private = self::PRIVATE_NOTE;
         }
-        $note->date = $request->date ? $request->date : null;
+        $note->date = $request->date ? date('Y-m-d', strtotime(str_replace('/', '-', $request->date))) : null;
         $note->created_at = date('Y-m-d H:i:s');
         $note->updated_at = date('Y-m-d H:i:s');
 
         $note->save();
 
-        return $request->ajax == true ? array(
+        return /*$request->ajax == true ? array(
             'success'    => true,
             'id'         => $note->id,
             'title'      => $note->title,
@@ -108,7 +111,7 @@ class NoteController extends Controller {
             'date'       => $note->date ? date('d-m-Y', strtotime($request->date)) : 'Brak',
             'created_at' => date('d-m-Y H:i:s', strtotime(date('Y-m-d H:i:s'))),
             'name'       => Auth::user()->name
-        ) : redirect()->route('notes.index');
+        ) :*/ redirect()->route('notes.index');
     }
 
     /**
@@ -137,7 +140,7 @@ class NoteController extends Controller {
             ->where('notes.id', '=', $id)
             ->get();
 
-        return view('pages/show-note')->with('note', $note[0]);
+        return view('pages.notes.show')->with('note', $note[0]);
     }
 
     /**
@@ -151,7 +154,7 @@ class NoteController extends Controller {
         $note = Note::where('id', $id)
             ->where('user_id', Auth::id())
             ->first();
-        return view('pages/edit-note')->with('note', $note);
+        return view('pages.notes.add-edit')->with('note', $note);
     }
 
     /**
@@ -179,7 +182,7 @@ class NoteController extends Controller {
         if (isset($request->private_note) && $request->private_note == "on") {
             $note->private = self::PRIVATE_NOTE;
         }
-        $note->date = $request->date ? $request->date : null;
+        $note->date = $request->date ? date('Y-m-d', strtotime(str_replace('/', '-', $request->date))) : null;
         $note->updated_at = date('Y-m-d H:i:s');
 
         $note->save();
@@ -198,7 +201,7 @@ class NoteController extends Controller {
         $note = Note::find($id);
         $note->delete();
 
-        return array('success' => true);
+        return array('success' => true, 'notesCount' => Helper::countActiveNotes());
     }
 
     /**
