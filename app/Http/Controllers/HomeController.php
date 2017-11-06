@@ -33,16 +33,9 @@ class HomeController extends Controller {
         });
         $dueDates = $notes->sortBy('date');
 
-//        $dueDates = $sortByDate->filter(function ($note) {
-//            $today = date('Y-m-d');
-//            $date = date_create($note->date);
-//            $now = date_create($today);
-//
-//            $diff=date_diff($date,$now);
-//            $text = $date->diff($now)->format("%d days, %h hours and %i minuts");
-//
-//           return $date > $now;
-//        });
+        $dueDates = $dueDates->filter(function ($note) {
+            return !is_null($note->date) && $note->active == 1;
+        });
 
         return view('pages.home', compact('notes', 'tasks', 'notActive', 'dueDates'));
     }

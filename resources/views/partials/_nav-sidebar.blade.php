@@ -2,10 +2,10 @@
     <!-- Logo -->
     <a href="{{ url('/') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><img height="40" src="{{ url('../images/note-2.png') }}"></span>
+        <span class="logo-mini"><img height="40" src="{{ url('images/note-2.png') }}"></span>
         <!-- logo for regular state and mobile devices -->
         <span class="logo-lg"><b>Note</b>ww
-                <img height="40" src="{{ url('../images/note-2.png') }}">
+                <img height="40" src="{{ url('images/note-2.png') }}">
             </span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
