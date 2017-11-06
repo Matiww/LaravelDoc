@@ -4,8 +4,10 @@ $(document).ready(function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    if($('#calendar').length > 0) {
-        $('#calendar').fullCalendar({
+    var calendar = $('#calendar');
+    var calendar_tasks = $('.calendar-tasks');
+    if(calendar.length > 0) {
+        calendar.fullCalendar({
             header: {
                 left: 'prev,next today',
                 center: 'title',
@@ -20,6 +22,7 @@ $(document).ready(function() {
                     },
                     success: function (response) {
                         var events = [];
+                        calendar_tasks.empty();
                         $(response).each(function (index, element) {
                             var border_color = '#007bff';
                             events.push({
@@ -30,8 +33,16 @@ $(document).ready(function() {
                                 textColor: 'white',
                                 borderColor: border_color,
                                 allDay: true
-                            })
+                            });
+                            var now = new Date();
+                            var date = new Date(element.date);
+                            if(now < date) {
+                                calendar_tasks.append('<div class="external-event bg-light-blue " style="position: relative;"><p>'+date.getDate() + '-' + (date.getMonth() + 1) +  '-' + date.getFullYear()+'</p>'+element.title+'</div>');
+                            }
                         });
+                        if(calendar_tasks.children().length == 0) {
+                            calendar_tasks.html('<p>Brak zadań</p>');
+                        }
                         callback(events);
                     }
                 });

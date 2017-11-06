@@ -32,9 +32,11 @@ class HomeController extends Controller {
             return $note->active == 0;
         });
         $dueDates = $notes->sortBy('date');
-
         $dueDates = $dueDates->filter(function ($note) {
-            return !is_null($note->date) && $note->active == 1;
+//            FIXME
+            $today = new DateTime(date("Y-m-d H:i:s"));
+            $date = new DateTime($note->date);
+            return !is_null($note->date) && $note->active == 1 && $date > $today;
         });
 
         return view('pages.home', compact('notes', 'tasks', 'notActive', 'dueDates'));

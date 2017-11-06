@@ -27,8 +27,22 @@
         <!-- Main content -->
         <section class="content">
             <div class="row">
-                <div class="col-md-12 calendar-container">
-                    <div id="calendar"></div>
+
+                <div class="col-md-9">
+                    <div class="box box-primary">
+                        <div class="box-body no-padding">
+                            <div id="calendar"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <h4 class="box-title">Nadchodzące zadania</h4>
+                        </div>
+                        <div class="box-body calendar-tasks"></div>
+                        <!-- /.box-body -->
+                    </div>
                 </div>
             </div>
         </section>

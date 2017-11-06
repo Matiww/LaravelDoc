@@ -284,10 +284,6 @@ body {
     background-color: #ffffff;
 }
 
-.calendar-container {
-    margin-top: 20px;
-}
-
 #calendar {
     color: rgba(0, 0, 0, .5) !important;
 }
@@ -308,7 +304,7 @@ body {
 }
 
 .fc-unthemed td.fc-today {
-    background: #f8f9fa;
+    background: #dadada;
 }
 
 .display-none {
@@ -436,6 +432,9 @@ tbody tr {
 }
 .margin-top-10 {
     margin-top: 10px;
+}
+.external-event {
+    cursor: default;
 }
 @media screen and (max-width: 1000px) {
     .home-actions {
