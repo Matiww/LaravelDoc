@@ -102,8 +102,7 @@
             <li class="{{ \Request::is('/') ? 'active' : '' }}">
                 <a href="{{ url('/') }}">
                     <i class="fa fa-home"></i> <span>Strona główna</span>
-                    <span class="pull-right-container">
-                        </span>
+                    <span class="pull-right-container"></span>
                 </a>
             </li>
             <li class="treeview {{ strpos(app('request')->path(), 'notes') !== false ? 'active' : '' }}">
@@ -111,8 +110,8 @@
                     <i class="fa fa-sticky-note-o"></i>
                     <span>Notatki</span>
                     <span class="pull-right-container">
-                           <span class="label label-warning pull-right">{{ Helper::countDisabledNotes() }}</span>
-                           <span class="label label-success pull-right notesCount">{{ Helper::countActiveNotes() }}</span>
+                           <span class="label label-warning pull-right">{{ Helper::countNotes(0) }}</span>
+                           <span class="label label-success pull-right notesCount">{{ Helper::countNotes() }}</span>
                         </span>
                 </a>
                 <ul class="treeview-menu">
@@ -123,8 +122,12 @@
                     {{--<li class="{{ \Request::is('notes/tasks') ? 'active' : '' }}"><a href="#"><i--}}
                                     {{--class="fa fa-tasks"></i> Zadania</a></li>--}}
                 </ul>
-                <li class="{{ \Request::is('calendar') ? 'active' : '' }}"><a href="{{ url('calendar') }}"><i
-                                class="fa fa-calendar"></i> Kalendarz</a></li>
+                <li class="{{ \Request::is('calendar') ? 'active' : '' }}">
+                    <a href="{{ url('calendar') }}">
+                        <i class="fa fa-calendar"></i><span>Kalendarz</span>
+                        <span class="pull-right-container"></span>
+                    </a>
+                </li>
             </li>
             {{--<li class="treeview {{ strpos(app('request')->path(), 'documents') !== false ? 'active' : '' }}">--}}
                 {{--<a href="#">--}}

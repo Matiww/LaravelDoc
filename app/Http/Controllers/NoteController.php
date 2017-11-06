@@ -201,7 +201,7 @@ class NoteController extends Controller {
         $note = Note::find($id);
         $note->delete();
 
-        return array('success' => true, 'notesCount' => Helper::countActiveNotes());
+        return array('success' => true, 'notesCount' => Helper::countNotes());
     }
 
     /**
