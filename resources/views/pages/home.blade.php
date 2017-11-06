@@ -16,7 +16,7 @@
                 <small>Informacje odnośnie notatek i zbliżających się terminów</small>
             </h1>
             <div class="home-actions">
-                <a href="{{ url('notes/create') }}" class="btn btn-sm btn-info btn-flat"><i
+                <a href="{{ url('notes/create') }}" class="btn btn-sm btn-primary btn-flat"><i
                             class="fa fa-plus"></i> Dodaj notatkę</a>
             </div>
         </section>
