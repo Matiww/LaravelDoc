@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title', 'Dodawanie/Edycja notatki')
 @section('javascripts')
     <script src="{{ asset('plugins/new_look/input-mask/jquery.inputmask.js') }}"></script>
     <script src="{{ asset('plugins/new_look/input-mask/jquery.inputmask.date.extensions.js') }}"></script>

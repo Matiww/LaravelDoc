@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title', 'Lista notatek')
 @section('javascripts')
     <script src="{{ asset('plugins/masonry.pkgd.min.js') }}"></script>
 @endsection
