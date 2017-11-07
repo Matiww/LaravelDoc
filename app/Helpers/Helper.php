@@ -8,18 +8,19 @@ use Illuminate\Support\Facades\Auth;
 class Helper
 {
     /**
-     * @param $active
+     * @param null $level
      *
-     * @return bool
+     * @return mixed
      */
-    public static function countNotes($active = NoteController::NOTES_ACTIVE) {
-        $notes = DB::table('notes')
-            ->select('notes.id')
+    public static function countNotes($level = null) {
+        $query = DB::table('notes');
+            $query->select('notes.id')
             ->join('users', 'users.id', '=', 'notes.user_id')
-            ->where('notes.user_id', '=', Auth::id())
-            ->where('notes.active', '=', $active)
-            ->count();
-
+            ->where('notes.user_id', '=', Auth::id());
+            if(!is_null($level)) {
+                $query->where('notes.important', '=', $level);
+            }
+        $notes = $query->count();
         return $notes;
     }
 

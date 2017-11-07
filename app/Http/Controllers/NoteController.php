@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\DB;
 class NoteController extends Controller {
     const NOTES_PER_PAGE = 25;
     const PRIVATE_NOTE = 1;
-    const IMPORTANT_NOTE = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const IMPORTANT_NOTE = [1, 2, 3];
+    //TODO save in db
+    const IMPORTANT_NOTE_DESCRIPTION = ['Ważna', 'Bardzo ważna', 'Najważniejsza'];
     const NOTES_ACTIVE = 1;
     const NOTE_CONTENT_LENGTH = 90; //90
     const NOTES_FETCH = [
@@ -44,19 +46,11 @@ class NoteController extends Controller {
             ->join('notes', 'users.id', '=', 'notes.user_id')
             ->where('users.id', '=', Auth::id())
             ->orderBy('notes.active', 'desc')
-            ->orderBy('notes.important', 'desc')
+            ->orderBy('notes.updated_at', 'desc')
             ->orderBy('notes.created_at', 'desc');
         if (isset($request->search)) {
             $query->where('notes.title', 'LIKE', '%' . $request->search . '%');
             $query->orWhere('notes.content', 'LIKE', '%' . $request->search . '%');
-        }
-
-        if (isset($request->important)) {
-            if ($request->important == 0) {
-                $query->where('notes.important', '=', 0);
-            } else {
-                $query->whereIn('notes.important', self::IMPORTANT_NOTE);
-            }
         }
         $notes = $query->paginate($limit);
 
@@ -82,36 +76,10 @@ class NoteController extends Controller {
      * @return array|\Illuminate\Http\RedirectResponse
      */
     public function store(StoreNote $request) {
-        $note = new Note;
 
-        $note->title = $request->input('title');
-        $note->content = $request->input('content');
-        $note->user_id = Auth::id();
-        if (isset($request->important_note) && ($request->important_note == "on" || $request->important_note == 1)) {
-            $note->important = self::IMPORTANT_NOTE[0];
-        }
-        if (isset($request->scale_level)) {
-            $note->important = $request->scale_level;
-        }
-        if (isset($request->private_note) && ($request->private_note == "on" || $request->private_note == 1)) {
-            $note->private = self::PRIVATE_NOTE;
-        }
-        $note->date = $request->date ? date('Y-m-d', strtotime(str_replace('/', '-', $request->date))) : null;
-        $note->created_at = date('Y-m-d H:i:s');
-        $note->updated_at = date('Y-m-d H:i:s');
+        $this->storeUpdateNote($request);
 
-        $note->save();
-
-        return /*$request->ajax == true ? array(
-            'success'    => true,
-            'id'         => $note->id,
-            'title'      => $note->title,
-            'content'    => $note->content ? $note->content : '',
-            'important'  => $note->important,
-            'date'       => $note->date ? date('d-m-Y', strtotime($request->date)) : 'Brak',
-            'created_at' => date('d-m-Y H:i:s', strtotime(date('Y-m-d H:i:s'))),
-            'name'       => Auth::user()->name
-        ) :*/ redirect()->route('notes.index');
+        return redirect()->route('notes.index');
     }
 
     /**
@@ -166,26 +134,8 @@ class NoteController extends Controller {
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(StoreNote $request, $id) {
-        $note = Note::find($id);
 
-        $note->title = $request->input('title');
-        $note->content = $request->input('content');
-
-        $note->important = 0;
-        if (isset($request->important_note) && $request->important_note == "on") {
-            $note->important = self::IMPORTANT_NOTE[0];
-        }
-        if (isset($request->scale_level)) {
-            $note->important = $request->scale_level;
-        }
-        $note->private = 0;
-        if (isset($request->private_note) && $request->private_note == "on") {
-            $note->private = self::PRIVATE_NOTE;
-        }
-        $note->date = $request->date ? date('Y-m-d', strtotime(str_replace('/', '-', $request->date))) : null;
-        $note->updated_at = date('Y-m-d H:i:s');
-
-        $note->save();
+        $this->storeUpdateNote($request, $id);
 
         return redirect()->route('notes.index');
     }
@@ -263,5 +213,37 @@ class NoteController extends Controller {
         $response = response()->json($note);
 
         return $response;
+    }
+
+    /**
+     * @param $request
+     * @param null $id
+     *
+     * @return bool
+     */
+    public function storeUpdateNote($request, $id = null) {
+        //edit note
+        if(!empty($id)) {
+            $note = Note::find($id);
+        } else {
+            //new note
+            $note = new Note;
+            $note->user_id = Auth::id();
+            $note->created_at = date('Y-m-d H:i:s');
+
+        }
+
+        $note->title = $request->input('title');
+        $note->content = $request->input('content');
+        $note->important = 0;
+        if (isset($request->important)) {
+            $note->important = $note->important = $request->important_level;
+        }
+        $note->date = $request->date ? date('Y-m-d', strtotime(str_replace('/', '-', $request->date))) : null;
+        $note->updated_at = date('Y-m-d H:i:s');
+
+        $note->save();
+
+        return true;
     }
 }

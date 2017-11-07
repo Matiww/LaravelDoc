@@ -1,11 +1,25 @@
 @extends('layouts.main')
 @section('title', 'Dodawanie/Edycja notatki')
+@section('stylesheets')
+    <link rel="stylesheet" href="{{ URL::asset('plugins/jquery-labelauty-master/source/jquery-labelauty.css') }}">
+@endsection
 @section('javascripts')
     <script src="{{ asset('plugins/new_look/input-mask/jquery.inputmask.js') }}"></script>
     <script src="{{ asset('plugins/new_look/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
     <script src="{{ asset('plugins/new_look/input-mask/jquery.inputmask.extensions.js') }}"></script>
+    <script src="{{ asset('plugins/jquery-labelauty-master/source/jquery-labelauty.js') }}"></script>
     <script>
         $('#date').inputmask('dd/mm/yyyy');
+
+        $(document).ready(function(){
+            $(":checkbox").labelauty({
+                label: false
+            });
+            $(":radio").labelauty();
+            $('#important').on("click", function() {
+                $('.importan-additional').slideToggle();
+            });
+        });
     </script>
 @endsection
 @section('content')
@@ -66,6 +80,23 @@
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" name="date" id="date" placeholder="dd/mm/yyyy" value="{{ isset($note->date) ? date('d-m-Y', strtotime($note->date)) : '' }}">
+                            </div>
+                            <div class="col-sm-2"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="date" class="col-sm-2 control-label">Ważna</label>
+
+                            <div class="col-sm-8">
+                                <input type="checkbox" id="important" name="important" value="1" {{ !empty($note->important) ? 'checked' : '' }}>
+                            </div>
+                            <div class="col-sm-2"></div>
+                        </div>
+                        <div class="form-group {{ !empty($note->important) ? '' : 'display-none' }} importan-additional">
+                            <label for="date" class="col-sm-2 control-label text-muted">Poziom (opcjonalnie)</label>
+                            <div class="col-sm-8 additional-part">
+                                <input type="radio" data-labelauty="Zwykła" name="important_level" id="important1" value="1" {{ !empty($note->important) && $note->important == \App\Http\Controllers\NoteController::IMPORTANT_NOTE[0] ? 'checked' : (!empty($note->important) ? '' : 'checked') }}>
+                                <input type="radio" data-labelauty="Ważna" name="important_level" id="important2" value="2" {{ !empty($note->important) && $note->important == \App\Http\Controllers\NoteController::IMPORTANT_NOTE[1] ? 'checked' : '' }}>
+                                <input type="radio" data-labelauty="Bardzo ważna" name="important_level" id="important3" value="3" {{ !empty($note->important) && $note->important == \App\Http\Controllers\NoteController::IMPORTANT_NOTE[2] ? 'checked' : '' }}>
                             </div>
                             <div class="col-sm-2"></div>
                         </div>

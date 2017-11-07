@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\DB;
 use Auth;
 use DateTime;
 class HomeController extends Controller {
-    const HOME_NOTE_LIMIT = 10;
     const HOME_NOTE_CONTENT_LENGTH = 120;
     /**
      * Show the application dashboard.
@@ -14,32 +13,34 @@ class HomeController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-
-        $query = DB::table('users');
-        $query->select(NoteController::NOTES_FETCH)
+        $important = DB::table('users')
+            ->select(NoteController::NOTES_FETCH)
             ->join('notes', 'users.id', '=', 'notes.user_id')
             ->where('users.id', '=', Auth::id())
-            ->orderBy('notes.active', 'desc')
+            ->where('notes.important', '>', 0)
             ->orderBy('notes.important', 'desc')
-            ->orderBy('notes.created_at', 'desc');
+            ->limit(10)->get();
 
-        $notes = $query->limit(self::HOME_NOTE_LIMIT)->get();
+        $dueDates = DB::table('users')
+            ->select(NoteController::NOTES_FETCH)
+            ->join('notes', 'users.id', '=', 'notes.user_id')
+            ->where('users.id', '=', Auth::id())
+            ->where('notes.date', '!=', null)
+            ->orderBy('notes.date', 'asc')
+            ->limit(10)->get();
 
-        $tasks = $notes->filter(function ($note) {
-            return !is_null($note->date) && $note->active == 1;
+        $important = $important->filter(function($note) {
+            return $note->important > 0;
         });
-        $notActive = $notes->filter(function ($note) {
-            return $note->active == 0;
-        });
-        $dueDates = $notes->sortBy('date');
+
         $dueDates = $dueDates->filter(function ($note) {
 //            FIXME
             $today = new DateTime(date("Y-m-d H:i:s"));
             $date = new DateTime($note->date);
-            return !is_null($note->date) && $note->active == 1 && $date > $today;
+            return $date > $today;
         });
 
-        return view('pages.home', compact('notes', 'tasks', 'notActive', 'dueDates'));
+        return view('pages.home', compact('dueDates', 'important'));
     }
 
     public function calendar() {

@@ -436,6 +436,33 @@ tbody tr {
 .external-event {
     cursor: default;
 }
+.additional-part {
+    display: flex;
+}
+.additional-part label {
+    margin-right: 5px !important;
+}
+.width-20 {
+    width: 20%;
+}
+.box0 {
+    border-top-color: #d2d6de;
+}
+.box1 {
+    border-top-color: #00c0ef;
+}
+.box2 {
+    border-top-color: #f39c12;
+}
+.box3 {
+    border-top-color: #dd4b39;
+}
+input#important2.labelauty:checked + label {
+    background-color: #f39c12 !important;
+}
+input#important3.labelauty:checked + label {
+    background-color: #dd4b39 !important;
+}
 @media screen and (max-width: 1000px) {
     .home-actions {
         top: -33px;

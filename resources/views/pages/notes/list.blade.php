@@ -27,7 +27,7 @@
                         <div class="gutter-sizer"></div>
                         @foreach($notes as $note)
                             <div class="grid-item notes-list">
-                                <div class="box box-info">
+                                <div class="box box{{ !empty($note->important) ? $note->important : '0' }}">
                                     <div class="box-header with-border">
                                         <h3 class="box-title {{ $note->active == \App\Http\Controllers\NoteController::NOTES_ACTIVE ? '' : 'not-active' }}">{{ $note->title }}</h3>
                                         <!-- /.box-tools -->
