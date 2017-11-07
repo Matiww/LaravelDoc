@@ -63,7 +63,7 @@
                             <p>Bardzo ważne</p>
                         </div>
                         <div class="icon">
-                            <i class="ion-ios-star-half"></i>
+                            <i class="ion-ios-star-outline"></i><i class="ion-ios-star-outline"></i>
                         </div>
                         <a href="#" class="small-box-footer">Soon™ <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
@@ -78,7 +78,7 @@
                             <p>Najważniejsze</p>
                         </div>
                         <div class="icon">
-                            <i class="ion-ios-star"></i>
+                            <i class="ion-ios-star-outline"></i><i class="ion-ios-star-outline"></i><i class="ion-ios-star-outline"></i>
                         </div>
                         <a href="#" class="small-box-footer">Soon™ <i class="fa fa-arrow-circle-right"></i></a>
                     </div>

@@ -34,6 +34,15 @@
                                     </div>
                                     <!-- /.box-header -->
                                     <div class="box-body" style="">
+                                        <div class="icon icon-note">
+                                            @if ($note->important == 1)
+                                                <i class="ion-ios-star-outline"></i>
+                                            @elseif ($note->important == 2)
+                                                <i class="ion-ios-star-outline"></i><i class="ion-ios-star-outline"></i>
+                                            @elseif ($note->important == 3)
+                                                <i class="ion-ios-star-outline"></i><i class="ion-ios-star-outline"></i><i class="ion-ios-star-outline"></i>
+                                            @endif
+                                        </div>
                                         <p class="{{ $note->active == \App\Http\Controllers\NoteController::NOTES_ACTIVE ? '' : 'not-active' }}">{!! nl2br(e(str_limit($note->content, \App\Http\Controllers\NoteController::NOTE_CONTENT_LENGTH, '...'))) !!}</p>
                                         <small class="additional-info {{ $note->active == 1 ? 'text-muted' : 'not-active' }}">
                                             Termin: {{ isset($note->date) ? date('d-m-Y', strtotime($note->date)) : 'Brak' }}</small>
