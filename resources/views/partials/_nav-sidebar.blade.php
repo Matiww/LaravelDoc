@@ -110,7 +110,9 @@
                     <i class="fa fa-sticky-note-o"></i>
                     <span>Notatki</span>
                     <span class="pull-right-container">
-                           <span class="label label-warning pull-right">{{ Helper::countNotes(0) }}</span>
+                           <span class="label label-danger pull-right">{{ Helper::countNotes(3) }}</span>
+                           <span class="label label-warning pull-right">{{ Helper::countNotes(2) }}</span>
+                           <span class="label label-info pull-right">{{ Helper::countNotes(1) }}</span>
                            <span class="label label-success pull-right notesCount">{{ Helper::countNotes() }}</span>
                         </span>
                 </a>
