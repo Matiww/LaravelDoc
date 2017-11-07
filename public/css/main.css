@@ -466,6 +466,12 @@ tbody tr {
     color: rgba(0, 0, 0, 0.15);
     transition: all 0.3s linear;
 }
+.small-box .icon {
+    font-size: 80px;
+}
+.small-box:hover .icon{
+    font-size:70px
+}
 input#important2.labelauty:checked + label {
     background-color: #f39c12 !important;
 }
