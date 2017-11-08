@@ -191,13 +191,12 @@ class NoteController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
     public function getCalendarEvents() {
-        $note = DB::table('notes')
+        $notes = DB::table('notes')
             ->select(
                 'notes.id',
                 'notes.title',
                 'notes.date',
                 'notes.important'
-
             )
             ->join('users', 'notes.user_id', '=', 'users.id')
             ->where('notes.user_id', '=', Auth::id())
@@ -205,7 +204,12 @@ class NoteController extends Controller {
             ->where('notes.date', '!=', null)
             ->get();
 
-        $response = response()->json($note);
+        //$note->important have different type on local/production - temporary fix
+//        FIXME
+        foreach ($notes as $note) {
+            $note->important = (int) $note->important;
+        }
+        $response = response()->json($notes);
 
         return $response;
     }
