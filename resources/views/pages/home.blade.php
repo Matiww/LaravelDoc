@@ -126,7 +126,7 @@
                                                 $importantKey = array_search($note->important, \App\Http\Controllers\NoteController::IMPORTANT_NOTE)
                                             @endphp
                                             <tr role="row" class="odd">
-                                                <td><a href="{{ url('/notes/'.$note->id) }}">{{ $note->title }}{!! $note->active == 0 ? '<span class="text-muted"> (Zablokowano)</span>' : '' !!}</a></td>
+                                                <td><a href="{{ url('/notes/'.$note->id) }}">{{ $note->title }}</a></td>
                                                 <td>{{ \App\Http\Controllers\NoteController::IMPORTANT_NOTE_DESCRIPTION[$importantKey] }}</td>
                                                 <td>
                                                     <span class="label label-{{ $note->active == \App\Http\Controllers\NoteController::NOTES_ACTIVE ? 'success' : 'warning' }}">
@@ -189,7 +189,7 @@
                                     @if(count($dueDates) > 0)
                                         @foreach($dueDates as $note)
                                             <tr role="row" class="odd">
-                                                <td><a href="{{ url('/notes/'.$note->id) }}">{{ $note->title }}{!! $note->active == 0 ? '<span class="text-muted"> (Zablokowano)</span>' : '' !!}</a></td>
+                                                <td><a href="{{ url('/notes/'.$note->id) }}">{{ $note->title }}</a></td>
                                                 <td>{{ !is_null($note->date) ? date('d-m-Y', strtotime($note->date)) : '-' }}</td>
                                                 <td>
                                                     <span class="label label-{{ $note->active == \App\Http\Controllers\NoteController::NOTES_ACTIVE ? 'success' : 'warning' }}">
