@@ -94,9 +94,9 @@
                         <div class="form-group {{ !empty($note->important) ? '' : 'display-none' }} importan-additional">
                             <label for="date" class="col-sm-2 control-label text-muted">Poziom (opcjonalnie)</label>
                             <div class="col-sm-8 additional-part">
-                                <input type="radio" data-labelauty="Zwykła" name="important_level" id="important1" value="1" {{ !empty($note->important) && $note->important == \App\Http\Controllers\NoteController::IMPORTANT_NOTE[0] ? 'checked' : (!empty($note->important) ? '' : 'checked') }}>
-                                <input type="radio" data-labelauty="Ważna" name="important_level" id="important2" value="2" {{ !empty($note->important) && $note->important == \App\Http\Controllers\NoteController::IMPORTANT_NOTE[1] ? 'checked' : '' }}>
-                                <input type="radio" data-labelauty="Bardzo ważna" name="important_level" id="important3" value="3" {{ !empty($note->important) && $note->important == \App\Http\Controllers\NoteController::IMPORTANT_NOTE[2] ? 'checked' : '' }}>
+                                <input type="radio" data-labelauty="Ważna" name="important_level" id="important1" value="1" {{ !empty($note->important) && $note->important == \App\Http\Controllers\NoteController::IMPORTANT_NOTE[0] ? 'checked' : (!empty($note->important) ? '' : 'checked') }}>
+                                <input type="radio" data-labelauty="Bardzo ważna" name="important_level" id="important2" value="2" {{ !empty($note->important) && $note->important == \App\Http\Controllers\NoteController::IMPORTANT_NOTE[1] ? 'checked' : '' }}>
+                                <input type="radio" data-labelauty="Najważniejsza" name="important_level" id="important3" value="3" {{ !empty($note->important) && $note->important == \App\Http\Controllers\NoteController::IMPORTANT_NOTE[2] ? 'checked' : '' }}>
                             </div>
                             <div class="col-sm-2"></div>
                         </div>

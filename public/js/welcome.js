@@ -23,9 +23,9 @@ $(document).ready(function() {
                     },
                     success: function (response) {
                         var events = [];
+                        var color;
                         calendar_tasks.empty();
                         $(response).each(function (index, element) {
-                            var color;
                             switch(element.important) {
                                 case 1:
                                     color = '#00c0ef ';
