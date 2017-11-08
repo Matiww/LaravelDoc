@@ -4,7 +4,8 @@ $(document).ready(function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    var calendar = $('#calendar');
+    var calendar = $('#calendar')
+    var today_tasks = $('.calendar-today');
     var calendar_tasks = $('.calendar-tasks');
     if(calendar.length > 0) {
         calendar.fullCalendar({
@@ -24,24 +25,31 @@ $(document).ready(function() {
                         var events = [];
                         calendar_tasks.empty();
                         $(response).each(function (index, element) {
-                            var border_color = '#007bff';
+                            var border_color = '#3c8dbc ';
                             events.push({
                                 title: element.title,
                                 start: element.date,
                                 url: 'notes/' + element.id,
-                                color: '#007bff',
+                                color: '#3c8dbc ',
                                 textColor: 'white',
                                 borderColor: border_color,
                                 allDay: true
                             });
                             var now = new Date();
                             var date = new Date(element.date);
-                            if(now < date) {
-                                calendar_tasks.append('<div class="external-event bg-light-blue " style="position: relative;"><p>'+date.getDate() + '-' + (date.getMonth() + 1) +  '-' + date.getFullYear()+'</p>'+element.title+'</div>');
+
+                            if(isTodayDate(now, date)) {
+                                today_tasks.append('<a href="notes/' +element.id+'"><div class="external-event bg-light-blue " style="position: relative;"><p>'+date.getDate() + '-' + (date.getMonth() + 1) +  '-' + date.getFullYear()+'</p>'+element.title+'</div></a>');
+                            }
+                            if(isFutureDate(now, date)) {
+                                calendar_tasks.append('<a href="notes/' +element.id+'"><div class="external-event bg-light-blue " style="position: relative;"><p>'+date.getDate() + '-' + (date.getMonth() + 1) +  '-' + date.getFullYear()+'</p>'+element.title+'</div></a>');
                             }
                         });
-                        if(calendar_tasks.children().length == 0) {
-                            calendar_tasks.html('<p>Brak zadań</p>');
+                        if(today_tasks.children().length === 0) {
+                            today_tasks.html('<p>Brak</p>');
+                        }
+                        if(calendar_tasks.children().length === 0) {
+                            calendar_tasks.html('<p>Brak</p>');
                         }
                         callback(events);
                     }
@@ -68,3 +76,27 @@ $(document).ready(function() {
         $('.tooltip').remove();
     });
 });
+
+function isTodayDate(now, date) {
+    var same_day = false;
+
+    if(date.getDate() === now.getDate()) {
+        if(date.getMonth() === now.getMonth()){
+            if(date.getFullYear() === now.getFullYear()){
+                same_day = true;
+            }
+        }
+    }
+    return same_day;
+
+}
+
+function isFutureDate(now, date) {
+    var future_day = false;
+
+    if(date.getFullYear() > now.getFullYear() || (date.getFullYear() === now.getFullYear() && date.getMonth() > now.getMonth()) || (date.getFullYear() === now.getFullYear() && date.getMonth() === now.getMonth() && date.getDate() > now.getDate())) {
+        future_day = true
+    }
+
+    return future_day;
+}

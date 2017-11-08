@@ -434,7 +434,7 @@ tbody tr {
     margin-top: 10px;
 }
 .external-event {
-    cursor: default;
+    cursor: pointer;
 }
 .additional-part {
     display: flex;

@@ -193,14 +193,9 @@ class NoteController extends Controller {
     public function getCalendarEvents() {
         $note = DB::table('notes')
             ->select(
-                'users.name',
-                'users.email',
                 'notes.id',
                 'notes.title',
-                'notes.content',
                 'notes.date',
-                'notes.created_at',
-                'notes.updated_at',
                 'notes.important'
 
             )

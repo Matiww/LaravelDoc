@@ -38,6 +38,13 @@
                 <div class="col-md-3">
                     <div class="box box-primary">
                         <div class="box-header with-border">
+                            <h4 class="box-title">Dzisiejsze zadania</h4>
+                        </div>
+                        <div class="box-body calendar-today"></div>
+                        <!-- /.box-body -->
+                    </div>
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
                             <h4 class="box-title">Nadchodzące zadania</h4>
                         </div>
                         <div class="box-body calendar-tasks"></div>
