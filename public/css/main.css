@@ -435,6 +435,7 @@ tbody tr {
 }
 .external-event {
     cursor: pointer;
+    color: #fff;
 }
 .additional-part {
     display: flex;
@@ -446,7 +447,7 @@ tbody tr {
     width: 20%;
 }
 .box0 {
-    border-top-color: #d2d6de;
+    border-top-color: #c1bd90;
 }
 .box1 {
     border-top-color: #00c0ef;

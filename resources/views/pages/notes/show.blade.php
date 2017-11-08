@@ -43,7 +43,7 @@
                             </p>
                         </article>
                     </div>
-                        <a href="{{ url('notes') }}" type="button" class="btn btn-default"><i class="fa fa-arrow-left"></i> Wróć</a>
+                        <a href="{{ url()->previous() }}" type="button" class="btn btn-default"><i class="fa fa-arrow-left"></i> Wróć</a>
                         <div class="float-right">
                             <a href="{{ url('notes') }}/{{ $note->id }}/edit" type="button" class="btn btn-primary"><i class="fa fa-edit"></i> Edytuj</a>
                         </div>

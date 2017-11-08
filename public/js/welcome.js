@@ -25,24 +25,37 @@ $(document).ready(function() {
                         var events = [];
                         calendar_tasks.empty();
                         $(response).each(function (index, element) {
-                            var border_color = '#3c8dbc ';
+                            var color;
+                            switch(element.important) {
+                                case 1:
+                                    color = '#00c0ef ';
+                                    break;
+                                case 2:
+                                    color = '#f39c12';
+                                    break;
+                                case 3:
+                                    color = '#dd4b39';
+                                    break;
+                                default:
+                                    color = '#c1bd90';
+                            }
                             events.push({
                                 title: element.title,
                                 start: element.date,
                                 url: 'notes/' + element.id,
-                                color: '#3c8dbc ',
+                                color: color,
                                 textColor: 'white',
-                                borderColor: border_color,
+                                borderColor: color,
                                 allDay: true
                             });
                             var now = new Date();
                             var date = new Date(element.date);
 
                             if(isTodayDate(now, date)) {
-                                today_tasks.append('<a href="notes/' +element.id+'"><div class="external-event bg-light-blue " style="position: relative;"><p>'+date.getDate() + '-' + (date.getMonth() + 1) +  '-' + date.getFullYear()+'</p>'+element.title+'</div></a>');
+                                today_tasks.append('<a href="notes/' +element.id+'"><div style="background-color: '+color+'" class="external-event" style="position: relative;"><p>'+date.getDate() + '-' + (date.getMonth() + 1) +  '-' + date.getFullYear()+'</p>'+element.title+'</div></a>');
                             }
                             if(isFutureDate(now, date)) {
-                                calendar_tasks.append('<a href="notes/' +element.id+'"><div class="external-event bg-light-blue " style="position: relative;"><p>'+date.getDate() + '-' + (date.getMonth() + 1) +  '-' + date.getFullYear()+'</p>'+element.title+'</div></a>');
+                                calendar_tasks.append('<a href="notes/' +element.id+'"><div style="background-color: '+color+'" class="external-event" style="position: relative;"><p>'+date.getDate() + '-' + (date.getMonth() + 1) +  '-' + date.getFullYear()+'</p>'+element.title+'</div></a>');
                             }
                         });
                         if(today_tasks.children().length === 0) {
