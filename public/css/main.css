@@ -479,6 +479,9 @@ tbody tr {
     right: 25px;
     cursor: pointer;
 }
+#date {
+    background-color: #fff;
+}
 input#important2.labelauty:checked + label {
     background-color: #f39c12 !important;
 }
