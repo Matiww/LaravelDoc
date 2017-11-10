@@ -2,15 +2,13 @@
 @section('title', 'Dodawanie/Edycja notatki')
 @section('stylesheets')
     <link rel="stylesheet" href="{{ URL::asset('plugins/jquery-labelauty-master/source/jquery-labelauty.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('plugins/datepicker-master/dist/datepicker.css') }}">
 @endsection
 @section('javascripts')
-    <script src="{{ asset('plugins/new_look/input-mask/jquery.inputmask.js') }}"></script>
-    <script src="{{ asset('plugins/new_look/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
-    <script src="{{ asset('plugins/new_look/input-mask/jquery.inputmask.extensions.js') }}"></script>
     <script src="{{ asset('plugins/jquery-labelauty-master/source/jquery-labelauty.js') }}"></script>
+    <script src="{{ asset('plugins/datepicker-master/dist/datepicker.js') }}"></script>
+    <script src="{{ asset('plugins/datepicker-master/i18n/datepicker.pl-PL.js') }}"></script>
     <script>
-        $('#date').inputmask('dd/mm/yyyy');
-
         $(document).ready(function(){
             $(":checkbox").labelauty({
                 label: false
@@ -19,6 +17,14 @@
             $('#important').on("click", function() {
                 $('.importan-additional').slideToggle();
             });
+        });
+        $('#date').datepicker({
+            language: 'pl-PL',
+            format: 'dd-mm-yyyy',
+            autoHide: true
+        });
+        $('.clear-date').on("click", function() {
+           $('#date').val('');
         });
     </script>
 @endsection
@@ -79,7 +85,10 @@
                             <label for="date" class="col-sm-2 control-label">Termin</label>
 
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="date" id="date" placeholder="dd/mm/yyyy" value="{{ isset($note->date) ? date('d-m-Y', strtotime($note->date)) : '' }}">
+                                <input type="text" class="form-control" name="date" id="date" placeholder="dd/mm/yyyy" value="{{ isset($note->date) ? date('d-m-Y', strtotime($note->date)) : '' }}" readonly>
+                                <i data-toggle="tooltip"
+                                   data-placement="top"
+                                   title="Wyczyść" class="fa fa-times clear-date"></i>
                             </div>
                             <div class="col-sm-2"></div>
                         </div>
