@@ -23,7 +23,25 @@ class StoreNote extends FormRequest {
         return [
             'title'   => 'required|max:90',
             'content' => 'nullable',
-            'date'    => 'nullable|date'
+            'date'    => 'nullable|date',
+            'important_level' => 'nullable|integer|between:1,3'
+        ];
+    }
+
+    /**
+     * Override default error messages
+     *
+     * @return array
+     */
+    public function messages()
+    {
+//        TODO add languages
+        return [
+            'title.required' => 'Tytuł jest wymagany.',
+            'title.max' => 'Tytuł nie może być dłuższy niż 90 znaków.',
+            'date.date' => 'Termin nie jest prawidłową datą.',
+            'important_level.integer' => 'Wartość poziomu musi być liczbą całkowitą.',
+            'important_level.between' => 'Wartość poziomu musi zawierać się w granicach :min - :max.'
         ];
     }
 }

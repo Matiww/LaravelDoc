@@ -34,12 +34,12 @@
         <ol class="breadcrumb">
             <li><a href="{{ url('/') }}"><i class="fa fa-home"></i> Strona główna</a></li>
             <li><a href="{{ url('notes') }}"><i class="fa fa-sticky-note-o"></i> Notatki</a></li>
-            <li class="active"><i class="fa fa-edit"></i> Dodawanie/Edycja</li>
+            <li class="active"><i class="fa fa-{{ isset($note) ? 'edit' : 'plus' }}"></i> {{ isset($note) ? 'Edycja' : 'Dodawanie' }}</li>
         </ol>
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Dodawanie/Edycja notatki
+                {{ isset($note) ? 'Edycja' : 'Dodawanie' }} notatki
             </h1>
         </section>
 
@@ -56,12 +56,18 @@
                 <!-- form start -->
                 <form class="form-horizontal" method="POST" action="{{ isset($note) ? route('notes.update', $note->id) : route('notes.store') }}">
                     @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul class="errors-list">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
+                        <div class="form-group">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-8">
+                                <div class="alert alert-danger">
+                                    <ul class="errors-list">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-2"></div>
                         </div>
                     @endif
                     <div class="box-body">
