@@ -109,7 +109,7 @@
                 <a href="#">
                     <i class="fa fa-sticky-note-o"></i>
                     <span>Notatki</span>
-                    <span class="pull-right-container">
+                    <span class="pull-right-container nav-counters">
                            <span class="label label-danger pull-right">{{ Helper::countNotes(3) }}</span>
                            <span class="label label-warning pull-right">{{ Helper::countNotes(2) }}</span>
                            <span class="label label-info pull-right">{{ Helper::countNotes(1) }}</span>

@@ -151,7 +151,7 @@ class NoteController extends Controller {
         $note = Note::find($id);
         $note->delete();
 
-        return array('success' => true, 'notesCount' => Helper::countNotes());
+        return array('success' => true);
     }
 
     /**
@@ -215,6 +215,8 @@ class NoteController extends Controller {
     }
 
     /**
+     * Method used to store ( if id=null ) or update ( if id!=null ) note
+     *
      * @param $request
      * @param null $id
      *

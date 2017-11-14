@@ -53,7 +53,6 @@ $(document).ready(function () {
                     $grid.masonry('remove', element.closest('.grid-item'))
                     // layout remaining item elements
                         .masonry('layout');
-                    $('.notesCount').text(result.notesCount);
                     if($('.grid-item').length - 1 == 0) {
                         notes_container.html(
                             '<div class="error-page">' +
@@ -62,6 +61,7 @@ $(document).ready(function () {
                             '<p>Możesz je dodać <a href="'+$('.add-note').attr('href')+'">tutaj</a>.</p></div></div>'
                         );
                     }
+                    $(".nav-counters").load(location.href + " .nav-counters>*","");
                     toastr["success"]("Sukces!");
                 }
             });
