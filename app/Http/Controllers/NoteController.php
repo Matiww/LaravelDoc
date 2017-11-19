@@ -21,15 +21,13 @@ class NoteController extends Controller {
         'users.name',
         'users.email',
         'notes.id',
-        'notes.id',
         'notes.title',
         'notes.content',
         'notes.created_at',
         'notes.updated_at',
         'notes.active',
         'notes.important',
-        'notes.date',
-        'notes.private'
+        'notes.date'
     ];
     /**
      * Display a listing of the resource.
@@ -39,7 +37,7 @@ class NoteController extends Controller {
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request) {
-        $limit = isset($request->limit) ? $request->limit : self::NOTES_PER_PAGE;
+        $limit = $request->has('limit') && !empty($request->limit) ? $request->limit : self::NOTES_PER_PAGE;
 
         $query = DB::table('users');
         $query->select(self::NOTES_FETCH)
@@ -48,7 +46,7 @@ class NoteController extends Controller {
             ->orderBy('notes.active', 'desc')
             ->orderBy('notes.updated_at', 'desc')
             ->orderBy('notes.created_at', 'desc');
-        if (isset($request->search)) {
+        if ($request->has('search') && !empty($request->search)) {
             $query->where('notes.title', 'LIKE', '%' . $request->search . '%');
             $query->orWhere('notes.content', 'LIKE', '%' . $request->search . '%');
         }
@@ -202,6 +200,7 @@ class NoteController extends Controller {
             ->where('notes.user_id', '=', Auth::id())
             ->where('notes.active', '=', self::NOTES_ACTIVE)
             ->where('notes.date', '!=', null)
+            ->orderBy('notes.date', 'asc')
             ->get();
 
         //$note->important have different type on local/production - temporary fix

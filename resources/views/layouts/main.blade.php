@@ -43,6 +43,7 @@
 <div class="wrapper">
     @include('partials._nav-sidebar')
     @yield('content')
+    @include('partials._footer')
 </div>
 <!-- ./wrapper -->
 <div id="loader"></div>
