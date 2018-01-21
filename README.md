@@ -1,5 +1,4 @@
-# Noteww - Notes management application ( Work in progress)
-
+# Noteww - Notes management application
 Live - http://matiww.hekko24.pl/noteww/public/
 <p>user@email.com / passwd</p>
 Installation
