@@ -47,7 +47,7 @@
                                         <small class="additional-info {{ $note->active == 1 ? 'text-muted' : 'not-active' }}">
                                             Termin: {{ isset($note->date) ? date('d-m-Y', strtotime($note->date)) : 'Brak' }}</small>
                                         <small class="additional-info {{ $note->active == 1 ? 'text-muted' : 'not-active' }}">
-                                            Przez: {{ $note->name }}</small>
+                                            Przez: {{ $note->user->email }}</small>
                                         @if($note->created_at == $note->updated_at)
                                             <small class="{{ $note->active == \App\Http\Controllers\NoteController::NOTES_ACTIVE ? 'text-muted' : 'not-active' }} note-timestamps">
                                                 <i class="fa fa-calendar" data-toggle="tooltip" data-placement="top"

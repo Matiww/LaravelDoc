@@ -32,7 +32,7 @@
                                 </content>
                             @else
                                 <p>
-                                    Przez: {{ $note->name }}
+                                    Przez: {{ $note->user->email }}
                                 </p>
                             @endif
                             <p>

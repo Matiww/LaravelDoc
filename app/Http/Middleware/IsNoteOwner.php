@@ -19,9 +19,7 @@ class IsNoteOwner
     {
         $parameters = $request->route()->parameters();
         if(!empty($parameters)) {
-            $id = !empty($parameters['id']) ? $parameters['id'] :$parameters['note'];
-            $note = Note::find($id);
-            if (!is_null($note) && ($note->user_id == Auth::id())) {
+            if (!is_null($parameters['note']) && ($parameters['note']->user_id == Auth::id())) {
                 return $next($request);
             } else {
                 return redirect('/');

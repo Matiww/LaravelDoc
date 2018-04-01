@@ -37,20 +37,16 @@ class NoteController extends Controller {
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request) {
-        $limit = $request->has('limit') && !empty($request->limit) ? $request->limit : self::NOTES_PER_PAGE;
+        $notes = Note::query();
+        $notes = $notes->where('user_id', '=', Auth::id())
+            ->orderBy('active', 'desc')
+            ->orderBy('updated_at', 'desc');
 
-        $query = DB::table('users');
-        $query->select(self::NOTES_FETCH)
-            ->join('notes', 'users.id', '=', 'notes.user_id')
-            ->where('users.id', '=', Auth::id())
-            ->orderBy('notes.active', 'desc')
-            ->orderBy('notes.updated_at', 'desc')
-            ->orderBy('notes.created_at', 'desc');
         if ($request->has('search') && !empty($request->search)) {
-            $query->where('notes.title', 'LIKE', '%' . $request->search . '%');
-            $query->orWhere('notes.content', 'LIKE', '%' . $request->search . '%');
+            $notes = $notes->where('title','LIKE','%'.$request->search.'%');
+            $notes = $notes->orWhere('content','LIKE','%'.$request->search.'%');
         }
-        $notes = $query->paginate($limit);
+        $notes = $notes->get();
 
         return view('pages.notes.list', [
             'notes' => $notes
@@ -83,43 +79,20 @@ class NoteController extends Controller {
     /**
      * Display the specified resource.
      *
-     * @param  int $id
-     *
-     * @return \Illuminate\View\View
+     * @param Note $note
+     * @return $this
      */
-    public function show($id) {
-        $note = DB::table('notes')
-            ->select(
-                'users.name',
-                'users.email',
-                'notes.id',
-                'notes.title',
-                'notes.content',
-                'notes.important',
-                'notes.date',
-                'notes.created_at',
-                'notes.updated_at'
-
-            )
-            ->join('users', 'notes.user_id', '=', 'users.id')
-            ->where('notes.user_id', '=', Auth::id())
-            ->where('notes.id', '=', $id)
-            ->get();
-
-        return view('pages.notes.show')->with('note', $note[0]);
+    public function show(Note $note) {
+        return view('pages.notes.show')->with('note', $note);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
-     *
-     * @return \Illuminate\View\View
+     * @param Note $note
+     * @return $this
      */
-    public function edit($id) {
-        $note = Note::where('id', $id)
-            ->where('user_id', Auth::id())
-            ->first();
+    public function edit(Note $note) {
         return view('pages.notes.add-edit')->with('note', $note);
     }
 
@@ -131,9 +104,9 @@ class NoteController extends Controller {
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(StoreNote $request, $id) {
+    public function update(StoreNote $request, Note $note) {
 
-        $this->storeUpdateNote($request, $id);
+        $this->storeUpdateNote($request, $note);
 
         return redirect()->route('notes.index');
     }
@@ -141,12 +114,11 @@ class NoteController extends Controller {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
-     *
+     * @param Note $note
      * @return array
+     * @throws \Exception
      */
-    public function destroy($id) {
-        $note = Note::find($id);
+    public function destroy(Note $note) {
         $note->delete();
 
         return array('success' => true);
@@ -155,13 +127,10 @@ class NoteController extends Controller {
     /**
      * Enable note
      *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
+     * @param Note $note
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function enable($id) {
-        $note = Note::find($id);
-
+    public function enable(Note $note) {
         $note->active = 1;
         $note->save();
 
@@ -171,12 +140,10 @@ class NoteController extends Controller {
     /**
      * Disable note
      *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
+     * @param Note $note
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function disable($id) {
-        $note = Note::find($id);
+    public function disable(Note $note) {
         $note->active = 0;
         $note->save();
 
@@ -217,20 +184,15 @@ class NoteController extends Controller {
      * Method used to store ( if id=null ) or update ( if id!=null ) note
      *
      * @param $request
-     * @param null $id
-     *
+     * @param null $note
      * @return bool
      */
-    public function storeUpdateNote($request, $id = null) {
-        //edit note
-        if(!empty($id)) {
-            $note = Note::find($id);
-        } else {
+    public function storeUpdateNote($request, $note = null) {
+        if(empty($note)) {
             //new note
             $note = new Note;
             $note->user_id = Auth::id();
             $note->created_at = date('Y-m-d H:i:s');
-
         }
 
         $note->title = $request->input('title');
